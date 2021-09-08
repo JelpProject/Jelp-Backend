@@ -36,12 +36,17 @@ class ResturantControllerTests {
 	
 	
 	
+	
+	
 	@Test
 	void testReturnResturant() throws Exception {
-		int restaurant_id = 1;
+		Long restaurant_id = null;
 		String uri = "http://localhost:8080/restaurant/";
+		List<Review> reviews = null;
 		
-		Restaurant restaurant = new Restaurant(restaurant_id, name, address, phone, city, state, country, description, reviews);
+		Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
+		
+		
 		
 		RequestBuilder request = MockMvcRequestBuilders.get(uri+restaurant_id);
 		

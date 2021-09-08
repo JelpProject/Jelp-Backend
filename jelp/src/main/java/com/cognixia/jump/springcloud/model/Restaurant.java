@@ -44,11 +44,8 @@ public class Restaurant implements Serializable {
 	private String description;
 	
 	@Transient
-	List<Review> reviews;
+	private List<Review> reviews;
 	
-	
-
-
 	
 	public Restaurant(Long restaurant_id, String name, String address, String phone, String city, String state,
 			String country, String description, List<Review> reviews) {
