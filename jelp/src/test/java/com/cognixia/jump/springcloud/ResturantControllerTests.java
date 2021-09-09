@@ -51,7 +51,7 @@ class ResturantControllerTests {
 	void testReturnResturant() throws Exception {
 		int restaurant_id = 1;
 		List<Review> reviews = null;
-		String uri = "http://localhost:8080/restaurant/";
+		String uri = "http://localhost:8080/api/restaurants/";
 		
 		Optional<Restaurant> restaurant = Optional.of(new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews));
 		
@@ -61,9 +61,7 @@ class ResturantControllerTests {
 		
 		MvcResult result = mvc.perform(request).andReturn();
 		
-		
-		
-		assertEquals("{restaurantJson}", result.getResponse().getContentAsString());
+		assertEquals("{ 'restaurant_id':1, 'name':'adam bistro','address':'1000 fake ave', 'phone':'5161111111','city':'fake city', 'state':'NY', 'country':'USA', 'description':'Tiny Bistro', 'reviews':null}", result.getResponse().getContentAsString());
 	}
 	
 	
