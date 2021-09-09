@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.springcloud.model.Review;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	List<Review> findAll();
 }

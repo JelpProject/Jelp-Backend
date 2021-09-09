@@ -37,7 +37,7 @@ public class RestaurantController {
 		
 		@CrossOrigin
 		@GetMapping("/restaurants/{id}")
-		public Restaurant getRestaurant(@PathVariable long id) {
+		public Restaurant getRestaurant(@PathVariable int id) {
 			
 			Optional<Restaurant> restaurantOpt = service.findById(id);
 			
@@ -79,7 +79,7 @@ public class RestaurantController {
 		
 		@CrossOrigin
 		@DeleteMapping("/delete/restaurant/{id}")
-		public ResponseEntity<String> deleteRestaurant(@PathVariable long id) {
+		public ResponseEntity<String> deleteRestaurant(@PathVariable int id) {
 			
 			Optional<Restaurant> found = service.findById(id);
 			

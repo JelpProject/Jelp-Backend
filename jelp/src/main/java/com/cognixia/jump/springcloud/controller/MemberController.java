@@ -35,7 +35,7 @@ public class MemberController {
 	
 	@CrossOrigin
 	@GetMapping("/members/{id}")
-	public Member getMember(@PathVariable long id) {
+	public Member getMember(@PathVariable int id) {
 		
 		Optional<Member> memberOpt = service.findById(id);
 		
@@ -77,7 +77,7 @@ public class MemberController {
 	
 	@CrossOrigin
 	@DeleteMapping("/delete/member/{id}")
-	public ResponseEntity<String> deleteMember(@PathVariable long id) {
+	public ResponseEntity<String> deleteMember(@PathVariable int id) {
 		
 		Optional<Member> found = service.findById(id);
 		

@@ -36,7 +36,7 @@ public class ReviewController {
 	
 	@CrossOrigin
 	@GetMapping("/reviews/{id}")
-	public Review getReview(@PathVariable long id) {
+	public Review getReview(@PathVariable int id) {
 		
 		Optional<Review> reviewOpt = service.findById(id);
 		
@@ -78,7 +78,7 @@ public class ReviewController {
 	
 	@CrossOrigin
 	@DeleteMapping("/delete/review/{id}")
-	public ResponseEntity<String> deleteReview(@PathVariable long id) {
+	public ResponseEntity<String> deleteReview(@PathVariable int id) {
 		
 		Optional<Review> found = service.findById(id);
 		

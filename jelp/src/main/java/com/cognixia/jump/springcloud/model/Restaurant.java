@@ -20,7 +20,7 @@ public class Restaurant implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long restaurant_id;
+	private int restaurant_id;
 	
 	@Column
 	private String name;
@@ -47,7 +47,7 @@ public class Restaurant implements Serializable {
 	private List<Review> reviews;
 	
 	
-	public Restaurant(Long restaurant_id, String name, String address, String phone, String city, String state,
+	public Restaurant(int restaurant_id, String name, String address, String phone, String city, String state,
 			String country, String description, List<Review> reviews) {
 		super();
 		this.restaurant_id = restaurant_id;
@@ -74,11 +74,11 @@ public class Restaurant implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Long getRestaurant_id() {
+	public int getRestaurant_id() {
 		return restaurant_id;
 	}
 
-	public void setRestaurant_id(Long restaurant_id) {
+	public void setRestaurant_id(int restaurant_id) {
 		this.restaurant_id = restaurant_id;
 	}
 

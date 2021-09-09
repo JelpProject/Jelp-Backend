@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.springcloud.model.Member;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long>{
+public interface MemberRepository extends JpaRepository<Member, Integer>{
 	List<Member> findAll();
 }

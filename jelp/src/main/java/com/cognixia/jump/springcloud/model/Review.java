@@ -19,7 +19,7 @@ public class Review implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long review_id;
+	private int review_id;
 	
 	@Column 
 	private int rating;
@@ -43,7 +43,7 @@ public class Review implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Review(Long review_id, int rating, String comment, int member_id, int restaurant_id,
+	public Review(int review_id, int rating, String comment, int member_id, int restaurant_id,
 			LocalDateTime timeStamp) {
 		super();
 		this.review_id = review_id;
@@ -54,11 +54,11 @@ public class Review implements Serializable {
 		this.timeStamp = LocalDateTime.now();
 	}
 
-	public Long getReview_id() {
+	public int getReview_id() {
 		return review_id;
 	}
 
-	public void setReview_id(Long review_id) {
+	public void setReview_id(int review_id) {
 		this.review_id = review_id;
 	}
 

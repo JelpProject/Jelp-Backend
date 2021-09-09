@@ -20,7 +20,7 @@ public class Member implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long member_id;
+	private int member_id;
 	
 	@Column
 	private String fname;
@@ -48,7 +48,7 @@ public class Member implements Serializable {
 	
 	
 	
-	public Member(Long member_id, String fname, String lname, String address, String email, String city, String state,
+	public Member(int member_id, String fname, String lname, String address, String email, String city, String state,
 			String country, Boolean isAdmin, List<Review> reviews) {
 		super();
 		this.member_id = member_id;
@@ -75,11 +75,11 @@ public class Member implements Serializable {
 	@Transient
 	private List<Review> reviews;
 
-	public Long getMember_id() {
+	public int getMember_id() {
 		return member_id;
 	}
 
-	public void setMember_id(Long member_id) {
+	public void setMember_id(int member_id) {
 		this.member_id = member_id;
 	}
 
