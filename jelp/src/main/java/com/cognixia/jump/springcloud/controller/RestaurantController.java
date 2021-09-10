@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Restaurant;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
+import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 
 
@@ -26,6 +27,9 @@ public class RestaurantController {
 
 		@Autowired
 		RestaurantRepository service;
+		
+		@Autowired
+		ReviewRepository repo;
 		
 		
 		
@@ -42,6 +46,7 @@ public class RestaurantController {
 			Optional<Restaurant> restaurantOpt = service.findById(id);
 			
 			if(restaurantOpt.isPresent()) {
+				restaurantOpt.get().setReviews(repo.findAllByrestaurantId(restaurantOpt.get().getRestaurant_id()));
 				return restaurantOpt.get();
 			}
 			
