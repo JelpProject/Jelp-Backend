@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
+import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 @RestController
 @RequestMapping("/api")
@@ -24,10 +25,18 @@ public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
+	@Autowired
+	ReviewRepository repo;
+	
 	@GetMapping("/members")
-	public List<Member> getAllMembers() {
+	public Iterable<Member> getAllMembers() {
 		
-		return service.findAll();
+		List<Member> memberWRevs = service.findAll();
+		for (int i = 0; i< memberWRevs.size(); i++) {
+			memberWRevs.get(i).setReviews(repo.findAllBymemberId(memberWRevs.get(i).getMemberId()));
+		}
+		return memberWRevs;
+		
 	}
 	
 	@GetMapping("/members/{id}")
@@ -36,6 +45,7 @@ public class MemberController {
 		Optional<Member> memberOpt = service.findById(id);
 		
 		if(memberOpt.isPresent()) {
+			memberOpt.get().setReviews(repo.findAllBymemberId(memberOpt.get().getMemberId()));
 			return memberOpt.get();
 		}
 		
