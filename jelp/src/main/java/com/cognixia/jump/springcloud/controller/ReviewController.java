@@ -62,14 +62,14 @@ public class ReviewController {
 		
 		// check if review exists, then update them
 		
-		Optional<Review> found = service.findById(updateReview.getReview_id());
+		Optional<Review> found = service.findById(updateReview.getReviewId());
 		
 		if(found.isPresent()) {
 			service.save(updateReview);
 			return "Saved: " + updateReview.toString();
 		}
 		else {
-			return "Could not update review, the id = " + updateReview.getReview_id() + " doesn't exist";
+			return "Could not update review, the id = " + updateReview.getReviewId() + " doesn't exist";
 		}
 		
 	}

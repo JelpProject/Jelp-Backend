@@ -56,14 +56,14 @@ public class MemberController {
 		
 		// check if member exists, then update them
 		
-		Optional<Member> found = service.findById(updateMember.getMember_id());
+		Optional<Member> found = service.findById(updateMember.getMemberId());
 		
 		if(found.isPresent()) {
 			service.save(updateMember);
 			return "Saved: " + updateMember.toString();
 		}
 		else {
-			return "Could not update member, the id = " + updateMember.getMember_id() + " doesn't exist";
+			return "Could not update member, the id = " + updateMember.getMemberId() + " doesn't exist";
 		}
 		
 	}

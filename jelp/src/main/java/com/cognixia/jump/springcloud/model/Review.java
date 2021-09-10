@@ -19,7 +19,7 @@ public class Review implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int review_id;
+	private int reviewId;
 	
 	@Column 
 	private int rating;
@@ -28,10 +28,10 @@ public class Review implements Serializable {
 	private String comment;
 	
 	@Column
-	private int member_id;
+	private int memberId;
 	
 	@Column
-	private int restaurant_id;
+	private int restaurantId;
 	
 	@Column
 	private LocalDateTime timeStamp;
@@ -43,23 +43,23 @@ public class Review implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Review(int review_id, int rating, String comment, int member_id, int restaurant_id,
+	public Review(int reviewId, int rating, String comment, int memberId, int restaurantId,
 			LocalDateTime timeStamp) {
 		super();
-		this.review_id = review_id;
+		this.reviewId = reviewId;
 		this.rating = rating;
 		this.comment = comment;
-		this.member_id = member_id;
-		this.restaurant_id = restaurant_id;
+		this.memberId = memberId;
+		this.restaurantId = restaurantId;
 		this.timeStamp = LocalDateTime.now();
 	}
 
-	public int getReview_id() {
-		return review_id;
+	public int getReviewId() {
+		return reviewId;
 	}
 
-	public void setReview_id(int review_id) {
-		this.review_id = review_id;
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
 	}
 
 	public int getRating() {
@@ -78,20 +78,20 @@ public class Review implements Serializable {
 		this.comment = comment;
 	}
 
-	public int getMember_id() {
-		return member_id;
+	public int getMemberId() {
+		return memberId;
 	}
 
-	public void setMember_id(int member_id) {
-		this.member_id = member_id;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 
-	public int getRestaurant_id() {
-		return restaurant_id;
+	public int getRestaurantId() {
+		return restaurantId;
 	}
 
-	public void setRestaurant_id(int restaurant_id) {
-		this.restaurant_id = restaurant_id;
+	public void setRestaurantId(int restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 
 	public LocalDateTime getTimeStamp() {
@@ -104,8 +104,8 @@ public class Review implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Review [review_id=" + review_id + ", rating=" + rating + ", comment=" + comment + ", member_id="
-				+ member_id + ", restaurant_id=" + restaurant_id + ", timeStamp=" + timeStamp + "]";
+		return "Review [reviewId=" + reviewId + ", rating=" + rating + ", comment=" + comment + ", memberId="
+				+ memberId + ", restaurantId=" + restaurantId + ", timeStamp=" + timeStamp + "]";
 	}
 	
 	
