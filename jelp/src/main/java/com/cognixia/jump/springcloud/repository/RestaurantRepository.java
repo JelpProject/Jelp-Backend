@@ -11,4 +11,7 @@ import com.cognixia.jump.springcloud.model.Restaurant;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
 	List<Restaurant> findAll();
+
+	List<Restaurant>  findAllByNameContaining(String name);
+	
 }

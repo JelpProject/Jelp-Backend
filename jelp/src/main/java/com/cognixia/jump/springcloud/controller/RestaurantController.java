@@ -44,6 +44,17 @@ public class RestaurantController {
 			
 		}
 		
+		@GetMapping("/restaurants/name/{name}")
+		public Iterable<Restaurant> getAllRestaurantsLike(@PathVariable String name) {
+			
+			List<Restaurant> restaurantsWRevs = service.findAllByNameContaining(name);
+			for (int i = 0; i< restaurantsWRevs.size(); i++) {
+				restaurantsWRevs.get(i).setReviews(repo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
+			}
+			return restaurantsWRevs;
+			
+		}
+		
 		
 		@GetMapping("/restaurants/{id}")
 		public Restaurant getRestaurant(@PathVariable int id) {
