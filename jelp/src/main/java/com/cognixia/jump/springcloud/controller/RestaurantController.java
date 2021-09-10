@@ -34,9 +34,14 @@ public class RestaurantController {
 		
 		
 		@GetMapping("/restaurants")
-		public List<Restaurant> getAllRestaurants() {
+		public Iterable<Restaurant> getAllRestaurants() {
 			
-			return service.findAll();
+			List<Restaurant> restaurantsWRevs = service.findAll();
+			for (int i = 0; i< restaurantsWRevs.size(); i++) {
+				restaurantsWRevs.get(i).setReviews(repo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
+			}
+			return restaurantsWRevs;
+			
 		}
 		
 		
