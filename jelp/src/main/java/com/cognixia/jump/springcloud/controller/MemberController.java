@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,20 +19,17 @@ import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api")
 public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
-	@CrossOrigin
 	@GetMapping("/members")
 	public List<Member> getAllMembers() {
 		
 		return service.findAll();
 	}
 	
-	@CrossOrigin
 	@GetMapping("/members/{id}")
 	public Member getMember(@PathVariable int id) {
 		
@@ -46,7 +42,6 @@ public class MemberController {
 		return new Member();
 	}
 	
-	@CrossOrigin
 	@PostMapping("/add/member")
 	public void addMember(@RequestBody Member newMember) {
 			
@@ -56,7 +51,6 @@ public class MemberController {
 		
 	}
 	
-	@CrossOrigin
 	@PutMapping("/update/member")
 	public @ResponseBody String updateMember(@RequestBody Member updateMember) {
 		
@@ -75,7 +69,6 @@ public class MemberController {
 	}
 	
 	
-	@CrossOrigin
 	@DeleteMapping("/delete/member/{id}")
 	public ResponseEntity<String> deleteMember(@PathVariable int id) {
 		
