@@ -40,7 +40,6 @@ public class Review implements Serializable {
 
 	public Review() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Review(Long review_id, int rating, String comment, int member_id, int restaurant_id,
