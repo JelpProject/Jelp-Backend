@@ -1,10 +1,13 @@
 package com.cognixia.jump.springcloud.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +17,10 @@ import javax.persistence.Transient;
 public class Member implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public enum Role {
+		ROLE_USER, ROLE_ADMIN, ADMIN, USER
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,14 +51,21 @@ public class Member implements Serializable {
 	private Boolean isAdmin;
 
 	// NW 2021-09-10 (Security): Added columns for login credentials
-	@Column
+	@Column(unique = true)
 	private String username;
 
-	@Column
+	@Column(nullable = false)
 	private String password;
+
+	@Column(columnDefinition = "boolean default true")
+	private boolean enabled;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Role role;
 	
 	public Member(Long member_id, String fname, String lname, String address, String email, String city, String state,
-			String country, Boolean isAdmin, String username, String password, List<Review> reviews) {
+			String country, Boolean isAdmin, String username, String password, Boolean enabled, Role role, List<Review> reviews) {
 		super();
 		this.member_id = member_id;
 		this.fname = fname;
@@ -64,11 +78,13 @@ public class Member implements Serializable {
 		this.isAdmin = false;
 		this.username = username;
 		this.password = password;
+		this.enabled = enabled;
+		this.role = role;
 		this.reviews = reviews;
 	}
 
 	public Member() {
-		super();
+		this(-1L, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, Role.ROLE_USER, new ArrayList<Review>());
 	}
 
 	@Transient
