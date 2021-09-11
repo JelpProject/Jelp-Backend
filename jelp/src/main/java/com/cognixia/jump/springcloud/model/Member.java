@@ -13,9 +13,6 @@ import javax.persistence.Transient;
 @Entity
 public class Member implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -45,11 +42,16 @@ public class Member implements Serializable {
 	
 	@Column
 	private Boolean isAdmin;
-	
-	
+
+	// NW 2021-09-10 (Security): Added columns for login credentials
+	@Column
+	private String username;
+
+	@Column
+	private String password;
 	
 	public Member(Long member_id, String fname, String lname, String address, String email, String city, String state,
-			String country, Boolean isAdmin, List<Review> reviews) {
+			String country, Boolean isAdmin, String username, String password, List<Review> reviews) {
 		super();
 		this.member_id = member_id;
 		this.fname = fname;
@@ -60,17 +62,14 @@ public class Member implements Serializable {
 		this.state = state;
 		this.country = country;
 		this.isAdmin = false;
+		this.username = username;
+		this.password = password;
 		this.reviews = reviews;
 	}
-	
-	
 
 	public Member() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@Transient
 	private List<Review> reviews;
@@ -147,6 +146,23 @@ public class Member implements Serializable {
 		this.isAdmin = isAdmin;
 	}
 
+	// NW 2021-09-10 (Security): Added getters and setters for the login credentials
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -155,17 +171,23 @@ public class Member implements Serializable {
 		this.reviews = reviews;
 	}
 
-
-
+	// NW 2021-09-10 (Security): Re-format to be a bit more readable
 	@Override
 	public String toString() {
-		return "Member [member_id=" + member_id + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", email=" + email + ", city=" + city + ", state=" + state + ", country=" + country + ", isAdmin="
-				+ isAdmin + ", reviews=" + reviews + "]";
+		return "{" +
+			" member_id='" + getMember_id() + "'" +
+			", fname='" + getFname() + "'" +
+			", lname='" + getLname() + "'" +
+			", address='" + getAddress() + "'" +
+			", email='" + getEmail() + "'" +
+			", city='" + getCity() + "'" +
+			", state='" + getState() + "'" +
+			", country='" + getCountry() + "'" +
+			", isAdmin='" + getIsAdmin() + "'" +
+			", username='" + getUsername() + "'" +
+			", password='" + getPassword() + "'" +
+			", reviews='" + getReviews() + "'" +
+			"}";
 	}
-	
-	
-	
-	
-	
+
 }
