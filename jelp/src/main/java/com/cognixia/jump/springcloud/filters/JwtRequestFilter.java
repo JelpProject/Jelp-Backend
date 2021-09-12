@@ -7,10 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,8 +22,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
+    private MyUserDetailsService userDetailsService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
+    // check request header for valid jwt to access the API its requesting
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -30,6 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
+        // check for header content and jwt
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
             // if the token is there, grab only the token
@@ -41,13 +50,25 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         }
 
-        // if we found teh user and not already in security context...
+        // if we found the user and not already in security context...
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // ... load in tehir details
-            // UserDetails userDetails = this.userDetailsService.loadUserByUserName(username);
+            // ... load in their details
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+            // check token is valid and jwt has not expired
+            if (jwtUtil.validateToken(jwt, userDetails)) {
+                // store authenticated user in security context
+                UsernamePasswordAuthenticationToken unamePassAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                unamePassAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(unamePassAuthenticationToken);
+            }
 
         }
+
+        filterChain.doFilter(request, response);
         
     }
     
