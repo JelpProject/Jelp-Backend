@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
     
     // key to use with our algorithm to hash/encode our token
-    private final String SECRET_KEY = "jump";
+    private final String SECRET_KEY = "jelp";
 
     // get the username for this token
     public String extractUsername(String token) {
