@@ -24,7 +24,7 @@ public class Member implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long member_id;
+	private Long memberId;
 	
 	@Column
 	private String fname;
@@ -64,10 +64,10 @@ public class Member implements Serializable {
 	@Column(nullable = false)
 	private Role role;
 	
-	public Member(Long member_id, String fname, String lname, String address, String email, String city, String state,
+	public Member(Long memberId, String fname, String lname, String address, String email, String city, String state,
 			String country, Boolean isAdmin, String username, String password, Boolean enabled, Role role, List<Review> reviews) {
 		super();
-		this.member_id = member_id;
+		this.memberId = memberId;
 		this.fname = fname;
 		this.lname = lname;
 		this.address = address;
@@ -90,12 +90,12 @@ public class Member implements Serializable {
 	@Transient
 	private List<Review> reviews;
 
-	public Long getMember_id() {
-		return member_id;
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setMember_id(Long member_id) {
-		this.member_id = member_id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getFname() {
@@ -191,7 +191,7 @@ public class Member implements Serializable {
 	@Override
 	public String toString() {
 		return "{" +
-			" member_id='" + getMember_id() + "'" +
+			" member_id='" + getMemberId() + "'" +
 			", fname='" + getFname() + "'" +
 			", lname='" + getLname() + "'" +
 			", address='" + getAddress() + "'" +
