@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,12 +17,12 @@ public class Member implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum Role {
-		ROLE_USER, ROLE_ADMIN, ADMIN, USER
+		ROLE_USER, ROLE_ADMIN
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long memberId;
+	private Integer memberId;
 	
 	@Column
 	private String fname;
@@ -50,6 +48,9 @@ public class Member implements Serializable {
 	@Column
 	private Boolean isAdmin;
 
+	@Transient
+	private Role role;
+
 	// NW 2021-09-10 (Security): Added columns for login credentials
 	@Column(unique = true)
 	private String username;
@@ -59,13 +60,9 @@ public class Member implements Serializable {
 
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
-
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Role role;
 	
-	public Member(Long memberId, String fname, String lname, String address, String email, String city, String state,
-			String country, Boolean isAdmin, String username, String password, Boolean enabled, Role role, List<Review> reviews) {
+	public Member(Integer memberId, String fname, String lname, String address, String email, String city, String state,
+			String country, Boolean isAdmin, String username, String password, Boolean enabled, List<Review> reviews) {
 		super();
 		this.memberId = memberId;
 		this.fname = fname;
@@ -75,26 +72,26 @@ public class Member implements Serializable {
 		this.city = city;
 		this.state = state;
 		this.country = country;
-		this.isAdmin = false;
+		this.isAdmin = isAdmin;
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
-		this.role = role;
+		this.role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_USER;
 		this.reviews = reviews;
 	}
 
 	public Member() {
-		this(-1L, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, Role.ROLE_USER, new ArrayList<Review>());
+		this(-1, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, new ArrayList<Review>());
 	}
 
 	@Transient
 	private List<Review> reviews;
 
-	public Long getMemberId() {
+	public Integer getMemberId() {
 		return memberId;
 	}
 
-	public void setMemberId(Long memberId) {
+	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
 
