@@ -3,7 +3,7 @@ package com.cognixia.jump.springcloud.service;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.model.Jmember;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        Optional<Member> found = mbrRepo.findByUsername(username);
+        Optional<Jmember> found = mbrRepo.findByUsername(username);
 
         // if member not found
         if (found.isEmpty()) {

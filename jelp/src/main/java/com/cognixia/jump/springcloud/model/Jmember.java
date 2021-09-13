@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class Member implements Serializable {
+public class Jmember implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class Member implements Serializable {
 	private Role role;
 
 	// NW 2021-09-10 (Security): Added columns for login credentials
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String username;
 
 	@Column(nullable = false)
@@ -61,7 +61,7 @@ public class Member implements Serializable {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
 	
-	public Member(Integer memberId, String fname, String lname, String address, String email, String city, String state,
+	public Jmember(Integer memberId, String fname, String lname, String address, String email, String city, String state,
 			String country, Boolean isAdmin, String username, String password, Boolean enabled, List<Review> reviews) {
 		super();
 		this.memberId = memberId;
@@ -80,7 +80,7 @@ public class Member implements Serializable {
 		this.reviews = reviews;
 	}
 
-	public Member() {
+	public Jmember() {
 		this(-1, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, new ArrayList<Review>());
 	}
 
