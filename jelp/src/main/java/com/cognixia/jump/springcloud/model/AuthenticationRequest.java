@@ -1,8 +1,14 @@
 package com.cognixia.jump.springcloud.model;
 
-public class AuthenticationRequest {
+import java.io.Serializable;
+
+public class AuthenticationRequest implements Serializable{
  
-    private String username;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String username;
     private String password;
 
     public AuthenticationRequest() {};
