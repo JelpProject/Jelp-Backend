@@ -79,7 +79,7 @@ public class RestaurantController {
 		public void addRestaurant(@RequestBody Restaurant newRestaurant) {
 				
 			Restaurant added = service.save(newRestaurant); // save() does an insert or update (depends on id passed)
-			
+			rvwRepo.saveAll(added.getReviews());
 			System.out.println("Added: " + added);
 			
 		}
@@ -94,6 +94,7 @@ public class RestaurantController {
 			
 			if(found.isPresent()) {
 				service.save(updateRestaurant);
+				rvwRepo.saveAll(found.get().getReviews());
 				return "Saved: " + updateRestaurant.toString();
 			}
 			else {
