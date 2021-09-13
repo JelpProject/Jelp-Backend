@@ -11,5 +11,5 @@ import com.cognixia.jump.springcloud.model.Review;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	List<Review> findAll();
 	List<Review> findAllByrestaurantId(int restaurantId);
-	List<Review> findAllBymemberId(int memberId);
+	List<Review> findAllBymemberId(Integer integer);
 }

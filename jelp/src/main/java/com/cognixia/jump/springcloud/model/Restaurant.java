@@ -13,9 +13,6 @@ import javax.persistence.Transient;
 @Entity
 public class Restaurant implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -71,7 +68,6 @@ public class Restaurant implements Serializable {
 
 	public Restaurant() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getRestaurant_id() {

@@ -1,6 +1,7 @@
 package com.cognixia.jump.springcloud.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,19 +9,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+@Table(name = "Jmember")
 @Entity
 public class Member implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	public enum Role {
+		ROLE_USER, ROLE_ADMIN
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int memberId;
+	private Integer memberId;
 	
 	@Column
 	private String fname;
@@ -43,13 +47,24 @@ public class Member implements Serializable {
 	@Column
 	private String country;
 	
-	@Column
+	@Column(columnDefinition = "boolean default false")
 	private Boolean isAdmin;
+
+	@Transient
+	private Role role;
+
+	// NW 2021-09-10 (Security): Added columns for login credentials
+	@Column(unique = true, nullable = false)
+	private String username;
+
+	@Column(nullable = false)
+	private String password;
+
+	@Column(columnDefinition = "boolean default true")
+	private boolean enabled;
 	
-	
-	
-	public Member(int memberId, String fname, String lname, String address, String email, String city, String state,
-			String country, Boolean isAdmin, List<Review> reviews) {
+	public Member(Integer memberId, String fname, String lname, String address, String email, String city, String state,
+			String country, Boolean isAdmin, String username, String password, Boolean enabled, List<Review> reviews) {
 		super();
 		this.memberId = memberId;
 		this.fname = fname;
@@ -59,27 +74,26 @@ public class Member implements Serializable {
 		this.city = city;
 		this.state = state;
 		this.country = country;
-		this.isAdmin = false;
+		this.isAdmin = isAdmin;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_USER;
 		this.reviews = reviews;
 	}
-	
-	
 
 	public Member() {
-		super();
-		// TODO Auto-generated constructor stub
+		this(-1, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, new ArrayList<Review>());
 	}
-
-
 
 	@Transient
 	private List<Review> reviews;
 
-	public int getMemberId() {
+	public Integer getMemberId() {
 		return memberId;
 	}
 
-	public void setMemberId(int memberId) {
+	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
 
@@ -147,6 +161,31 @@ public class Member implements Serializable {
 		this.isAdmin = isAdmin;
 	}
 
+	// NW 2021-09-10 (Security): Added getters and setters for the login credentials
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -155,17 +194,23 @@ public class Member implements Serializable {
 		this.reviews = reviews;
 	}
 
-
-
+	// NW 2021-09-10 (Security): Re-format to be a bit more readable
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", fname=" + fname + ", lname=" + lname + ", address=" + address
-				+ ", email=" + email + ", city=" + city + ", state=" + state + ", country=" + country + ", isAdmin="
-				+ isAdmin + ", reviews=" + reviews + "]";
+		return "{" +
+			" member_id='" + getMemberId() + "'" +
+			", fname='" + getFname() + "'" +
+			", lname='" + getLname() + "'" +
+			", address='" + getAddress() + "'" +
+			", email='" + getEmail() + "'" +
+			", city='" + getCity() + "'" +
+			", state='" + getState() + "'" +
+			", country='" + getCountry() + "'" +
+			", isAdmin='" + getIsAdmin() + "'" +
+			", username='" + getUsername() + "'" +
+			", password='" + getPassword() + "'" +
+			", reviews='" + getReviews() + "'" +
+			"}";
 	}
-	
-	
-	
-	
-	
+
 }
