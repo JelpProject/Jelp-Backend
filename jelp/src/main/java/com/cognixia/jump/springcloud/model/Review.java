@@ -8,9 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -38,26 +35,25 @@ public class Review implements Serializable {
 	@Column(name = "Rvw_Timestamp", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
 	private LocalDateTime timeStamp;
 	
-	@ManyToOne
-	@JoinColumn(name = "Mbr_Id")
-	private Member member;
 	
-	@ManyToOne
-	@JoinColumn(name = "Rest_Id")
-	private Restaurant restaurant;
+	@Column(name = "Mbr_Id")
+	private Long mbrId;
+	
+	@Column(name = "Rest_Id")
+	private Long restaurantId;
 
 	public Review() {
-		this(-1L, 0, "N/A", "N/A", LocalDateTime.now(), new Member(), new Restaurant());
+		this(-1L, 0, "N/A", "N/A", LocalDateTime.now(), -1L, -1L);
 	}
 
-	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Member member, Restaurant restaurant) {
+	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Long member, Long restaurant) {
 		this.rvwId = rvwId;
 		this.rating = rating;
 		this.headline = headline;
 		this.detail = detail;
 		this.timeStamp = timeStamp;
-		this.member = member;
-		this.restaurant = restaurant;
+		this.mbrId = member;
+		this.restaurantId = restaurant;
 	}
 
 	public Long getRvwId() {
@@ -100,20 +96,20 @@ public class Review implements Serializable {
 		this.timeStamp = timeStamp;
 	}
 
-	public Member getMember() {
-		return this.member;
+	public Long getMember() {
+		return this.mbrId;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMember(Long member) {
+		this.mbrId = member;
 	}
 
-	public Restaurant getRestaurant() {
-		return this.restaurant;
+	public Long getRestaurant() {
+		return this.restaurantId;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurant(Long restaurant) {
+		this.restaurantId = restaurant;
 	}
 
 	@Override

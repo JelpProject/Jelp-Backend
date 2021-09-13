@@ -10,6 +10,6 @@ import com.cognixia.jump.springcloud.model.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 	List<Review> findAll();
-	// List<Review> findAllByrestaurantId(Long restaurantId);
-	// List<Review> findAllBymemberId(Long integer);
+	 List<Review> findAllByrestaurantId(Long restaurant);
+	 List<Review> findAllBymbrId(Long member);
 }
