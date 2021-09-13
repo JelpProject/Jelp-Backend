@@ -160,6 +160,14 @@ public class Jmember implements Serializable {
 	}
 
 	// NW 2021-09-10 (Security): Added getters and setters for the login credentials
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	public String getUsername() {
 		return username;
 	}
