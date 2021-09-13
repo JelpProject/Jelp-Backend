@@ -9,9 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+// Table name altered to be 'Jmember' because 'Member' is a reserved word in MySQL
 @Table(name = "Jmember")
 @Entity
 public class Member implements Serializable {
@@ -24,81 +28,69 @@ public class Member implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer memberId;
+	@Column(name = "Mbr_Id")
+	private Long mbrId;
 	
-	@Column
+	@Column(name = "Mbr_Fname")
 	private String fname;
 	
-	@Column
+	@Column(name = "Mbr_Lname")
 	private String lname;
 	
-	@Column
-	private String address;
-	
-	@Column
+	@Column(name = "Mbr_Email")
 	private String email;
-	
-	@Column
-	private String city;
-	
-	@Column
-	private String state;
-	
-	@Column
-	private String country;
-	
-	@Column(columnDefinition = "boolean default false")
+
+	@Column(name = "Mbr_IsAdmin", columnDefinition = "boolean default false")
 	private Boolean isAdmin;
 
-	@Transient
-	private Role role;
-
-	// NW 2021-09-10 (Security): Added columns for login credentials
-	@Column(unique = true, nullable = false)
+	@Column(name = "Mbr_Username", unique = true, nullable = false)
 	private String username;
 
-	@Column(nullable = false)
+	@Column(name = "Mbr_Password", nullable = false)
 	private String password;
 
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
+
+	@Transient
+	private Role role;
 	
-	public Member(Integer memberId, String fname, String lname, String address, String email, String city, String state,
-			String country, Boolean isAdmin, String username, String password, Boolean enabled, List<Review> reviews) {
-		super();
-		this.memberId = memberId;
+	@ManyToOne
+	@JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
+	private City city;
+
+	@Transient
+	@OneToMany(mappedBy = "member")
+	private List<Review> reviews;
+	
+	public Member() {
+		this(-1L, "N/A", "N/A", "N/A", false, "N/A", "N/A", false, new City(), new ArrayList<>());
+	}
+
+	public Member(Long mbrId, String fname, String lname, String email, Boolean isAdmin, String username, String password, boolean enabled, City city, List<Review> reviews) {
+		this.mbrId = mbrId;
 		this.fname = fname;
 		this.lname = lname;
-		this.address = address;
 		this.email = email;
-		this.city = city;
-		this.state = state;
-		this.country = country;
 		this.isAdmin = isAdmin;
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
 		this.role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_USER;
+		this.city = city;
 		this.reviews = reviews;
 	}
 
-	public Member() {
-		this(-1, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, new ArrayList<Review>());
+	public Long getMbrId() {
+		return this.mbrId;
 	}
 
-	@Transient
-	private List<Review> reviews;
-
-	public Integer getMemberId() {
-		return memberId;
-	}
-
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
+	public void setMbrId(Long mbrId) {
+		this.mbrId = mbrId;
 	}
 
 	public String getFname() {
-		return fname;
+		return this.fname;
 	}
 
 	public void setFname(String fname) {
@@ -106,72 +98,35 @@ public class Member implements Serializable {
 	}
 
 	public String getLname() {
-		return lname;
+		return this.lname;
 	}
 
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
+	public Boolean isIsAdmin() {
+		return this.isAdmin;
 	}
 
 	public Boolean getIsAdmin() {
-		return isAdmin;
+		return this.isAdmin;
 	}
 
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
-	// NW 2021-09-10 (Security): Added getters and setters for the login credentials
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -179,36 +134,62 @@ public class Member implements Serializable {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+	public boolean getEnabled() {
+		return this.enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Role getRole() {
+		return this.role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public City getCity() {
+		return this.city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
 	public List<Review> getReviews() {
-		return reviews;
+		return this.reviews;
 	}
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	// NW 2021-09-10 (Security): Re-format to be a bit more readable
 	@Override
 	public String toString() {
 		return "{" +
-			" member_id='" + getMemberId() + "'" +
+			" mbrId='" + getMbrId() + "'" +
 			", fname='" + getFname() + "'" +
 			", lname='" + getLname() + "'" +
-			", address='" + getAddress() + "'" +
 			", email='" + getEmail() + "'" +
-			", city='" + getCity() + "'" +
-			", state='" + getState() + "'" +
-			", country='" + getCountry() + "'" +
-			", isAdmin='" + getIsAdmin() + "'" +
+			", isAdmin='" + isIsAdmin() + "'" +
 			", username='" + getUsername() + "'" +
 			", password='" + getPassword() + "'" +
+			", enabled='" + isEnabled() + "'" +
+			", role='" + getRole() + "'" +
+			", city='" + getCity() + "'" +
 			", reviews='" + getReviews() + "'" +
 			"}";
 	}
