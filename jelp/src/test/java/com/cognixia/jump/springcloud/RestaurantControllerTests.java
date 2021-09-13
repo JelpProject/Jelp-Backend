@@ -42,7 +42,7 @@ import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(RestaurantController.class)
-class ResturantControllerTests {
+class RestaurantControllerTests {
 
 	@Autowired
 	private MockMvc mvc;
@@ -67,7 +67,7 @@ class ResturantControllerTests {
 	
 	
 	@Test
-	void testReturnResturant() throws Exception {
+	void testReturnRestaurant() throws Exception {
 		Long restaurant_id = 1L;
 		List<Review> reviews = null;
 		String uri = "http://localhost:8080/api/restaurants/";
@@ -77,7 +77,7 @@ class ResturantControllerTests {
 
 		when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 
-		Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
+		// Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
 		
 	//	when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 
