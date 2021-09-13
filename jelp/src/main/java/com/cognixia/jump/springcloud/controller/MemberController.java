@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.springcloud.model.Jmember;
+import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
@@ -29,9 +29,9 @@ public class MemberController {
 	ReviewRepository repo;
 	
 	@GetMapping("/members")
-	public Iterable<Jmember> getAllMembers() {
+	public Iterable<Member> getAllMembers() {
 		
-		List<Jmember> memberWRevs = service.findAll();
+		List<Member> memberWRevs = service.findAll();
 		for (int i = 0; i< memberWRevs.size(); i++) {
 			memberWRevs.get(i).setReviews(repo.findAllBymemberId(memberWRevs.get(i).getMemberId()));
 		}
@@ -40,33 +40,33 @@ public class MemberController {
 	}
 	
 	@GetMapping("/members/{id}")
-	public Jmember getMember(@PathVariable int id) {
+	public Member getMember(@PathVariable int id) {
 		
-		Optional<Jmember> memberOpt = service.findById(id);
+		Optional<Member> memberOpt = service.findById(id);
 		
 		if(memberOpt.isPresent()) {
 			memberOpt.get().setReviews(repo.findAllBymemberId(memberOpt.get().getMemberId()));
 			return memberOpt.get();
 		}
 		
-		return new Jmember();
+		return new Member();
 	}
 	
 	@PostMapping("/add/member")
-	public void addMember(@RequestBody Jmember newMember) {
+	public void addMember(@RequestBody Member newMember) {
 			
-		Jmember added = service.save(newMember); // save() does an insert or update (depends on id passed)
+		Member added = service.save(newMember); // save() does an insert or update (depends on id passed)
 		
 		System.out.println("Added: " + added);
 		
 	}
 	
 	@PutMapping("/update/member")
-	public @ResponseBody String updateMember(@RequestBody Jmember updateMember) {
+	public @ResponseBody String updateMember(@RequestBody Member updateMember) {
 		
 		// check if member exists, then update them
 		
-		Optional<Jmember> found = service.findById(updateMember.getMemberId());
+		Optional<Member> found = service.findById(updateMember.getMemberId());
 		
 		if(found.isPresent()) {
 			service.save(updateMember);
@@ -82,7 +82,7 @@ public class MemberController {
 	@DeleteMapping("/delete/member/{id}")
 	public ResponseEntity<String> deleteMember(@PathVariable int id) {
 		
-		Optional<Jmember> found = service.findById(id);
+		Optional<Member> found = service.findById(id);
 		
 		if(found.isPresent()) {
 			

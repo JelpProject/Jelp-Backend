@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+@Table(name = "Jmember")
 @Entity
-public class Jmember implements Serializable {
+public class Member implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +47,7 @@ public class Jmember implements Serializable {
 	@Column
 	private String country;
 	
-	@Column
+	@Column(columnDefinition = "boolean default false")
 	private Boolean isAdmin;
 
 	@Transient
@@ -61,7 +63,7 @@ public class Jmember implements Serializable {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
 	
-	public Jmember(Integer memberId, String fname, String lname, String address, String email, String city, String state,
+	public Member(Integer memberId, String fname, String lname, String address, String email, String city, String state,
 			String country, Boolean isAdmin, String username, String password, Boolean enabled, List<Review> reviews) {
 		super();
 		this.memberId = memberId;
@@ -80,7 +82,7 @@ public class Jmember implements Serializable {
 		this.reviews = reviews;
 	}
 
-	public Jmember() {
+	public Member() {
 		this(-1, "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" , "N/A", false, "N/A", "N/A", false, new ArrayList<Review>());
 	}
 
