@@ -50,7 +50,7 @@ public class Member implements Serializable {
 	private String password;
 
 	@Column(columnDefinition = "boolean default true")
-	private boolean enabled;
+	private Boolean enabled;
 
 	@Transient
 	private Role role;

@@ -26,7 +26,7 @@ public class Review implements Serializable {
 	@Min(value = 0)
 	@Max(value = 5)
 	@Column(name = "Rvw_Rating")
-	private int rating;
+	private Integer rating;
 
 	@Column(name = "Rvw_Headline", columnDefinition = "varchar(50)")
 	private String headline;
