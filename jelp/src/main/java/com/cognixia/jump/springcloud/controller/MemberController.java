@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
-import com.cognixia.jump.springcloud.repository.CityRepository;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
@@ -26,19 +25,22 @@ public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
-	// @Autowired
-	// ReviewRepository rvwRepo;
+	 @Autowired
+	 ReviewRepository rvwRepo;
 
 	// @Autowired
 	// CityRepository cityRepo;
+	 
+	 //memberWRevs.get(i)
+	 //memberWRevs.get(i).getMbrId())
 	
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
 		
 		List<Member> memberWRevs = service.findAll();
-		// for (int i = 0; i< memberWRevs.size(); i++) {
-		// 	memberWRevs.get(i).setReviews(rvwRepo.findAllBymemberId(memberWRevs.get(i).getMemberId()));
-		// }
+		 for (int i = 0; i< memberWRevs.size(); i++) {
+		 	memberWRevs.get(i).setReviews(rvwRepo.findAllBymbrId(memberWRevs.get(i).getMbrId()));
+		 }
 
 		return memberWRevs;
 		
@@ -49,10 +51,10 @@ public class MemberController {
 		
 		Optional<Member> memberOpt = service.findById(id);
 		
-		// if(memberOpt.isPresent()) {
-		// 	memberOpt.get().setReviews(rvwRepo.findAllBymemberId(memberOpt.get().getMemberId()));
-		// 	return memberOpt.get();
-		// }
+		 if(memberOpt.isPresent()) {
+		 	memberOpt.get().setReviews(rvwRepo.findAllBymbrId(memberOpt.get().getMbrId()));
+		 	return memberOpt.get();
+		 }
 
 		if (memberOpt.isPresent()) {
 			return memberOpt.get();

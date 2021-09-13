@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Restaurant;
-import com.cognixia.jump.springcloud.repository.CityRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
@@ -29,8 +28,8 @@ public class RestaurantController {
 		@Autowired
 		RestaurantRepository service;
 		
-		// @Autowired
-		// ReviewRepository rvwRepo;
+		 @Autowired
+		ReviewRepository rvwRepo;
 
 		// @Autowired
 		// CityRepository cityRepo;
@@ -40,9 +39,9 @@ public class RestaurantController {
 			
 			List<Restaurant> restaurantsWRevs = service.findAll();
 
-			// for (int i = 0; i< restaurantsWRevs.size(); i++) {
-			// 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
-			// }
+			 for (int i = 0; i< restaurantsWRevs.size(); i++) {
+			 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurantId()));
+			 }
 
 			return restaurantsWRevs;
 			
@@ -53,9 +52,9 @@ public class RestaurantController {
 			
 			List<Restaurant> restaurantsWRevs = service.findAllByNameContaining(name);
 			
-			// for (int i = 0; i< restaurantsWRevs.size(); i++) {
-			// 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
-			// }
+			 for (int i = 0; i< restaurantsWRevs.size(); i++) {
+			 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurantId()));
+			 }
 
 			return restaurantsWRevs;
 			
@@ -67,14 +66,10 @@ public class RestaurantController {
 			
 			Optional<Restaurant> restaurantOpt = service.findById(id);
 			
-			// if(restaurantOpt.isPresent()) {
-			// 	restaurantOpt.get().setReviews(rvwRepo.findAllByrestaurantId(restaurantOpt.get().getRestaurant_id()));
-			// 	return restaurantOpt.get();
-			// }
-
-			if (restaurantOpt.isPresent()) {
-				return restaurantOpt.get();
-			}
+			 if(restaurantOpt.isPresent()) {
+			 	restaurantOpt.get().setReviews(rvwRepo.findAllByrestaurantId(restaurantOpt.get().getRestaurantId()));
+			 	return restaurantOpt.get();
+			 }
 			
 			return null;
 		}
