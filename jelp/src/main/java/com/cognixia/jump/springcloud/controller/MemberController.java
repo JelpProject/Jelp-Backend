@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.repository.CityRepository;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
@@ -25,31 +26,39 @@ public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
-	@Autowired
-	ReviewRepository repo;
+	// @Autowired
+	// ReviewRepository rvwRepo;
+
+	// @Autowired
+	// CityRepository cityRepo;
 	
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
 		
 		List<Member> memberWRevs = service.findAll();
-		for (int i = 0; i< memberWRevs.size(); i++) {
-			memberWRevs.get(i).setReviews(repo.findAllBymemberId(memberWRevs.get(i).getMemberId()));
-		}
+		// for (int i = 0; i< memberWRevs.size(); i++) {
+		// 	memberWRevs.get(i).setReviews(rvwRepo.findAllBymemberId(memberWRevs.get(i).getMemberId()));
+		// }
+
 		return memberWRevs;
 		
 	}
 	
 	@GetMapping("/members/{id}")
-	public Member getMember(@PathVariable int id) {
+	public Member getMember(@PathVariable Long id) {
 		
 		Optional<Member> memberOpt = service.findById(id);
 		
-		if(memberOpt.isPresent()) {
-			memberOpt.get().setReviews(repo.findAllBymemberId(memberOpt.get().getMemberId()));
+		// if(memberOpt.isPresent()) {
+		// 	memberOpt.get().setReviews(rvwRepo.findAllBymemberId(memberOpt.get().getMemberId()));
+		// 	return memberOpt.get();
+		// }
+
+		if (memberOpt.isPresent()) {
 			return memberOpt.get();
 		}
 		
-		return new Member();
+		return null;
 	}
 	
 	@PostMapping("/add/member")
@@ -66,21 +75,21 @@ public class MemberController {
 		
 		// check if member exists, then update them
 		
-		Optional<Member> found = service.findById(updateMember.getMemberId());
+		Optional<Member> found = service.findById(updateMember.getMbrId());
 		
 		if(found.isPresent()) {
 			service.save(updateMember);
 			return "Saved: " + updateMember.toString();
 		}
 		else {
-			return "Could not update member, the id = " + updateMember.getMemberId() + " doesn't exist";
+			return "Could not update member, the id = " + updateMember.getMbrId() + " doesn't exist";
 		}
 		
 	}
 	
 	
 	@DeleteMapping("/delete/member/{id}")
-	public ResponseEntity<String> deleteMember(@PathVariable int id) {
+	public ResponseEntity<String> deleteMember(@PathVariable Long id) {
 		
 		Optional<Member> found = service.findById(id);
 		

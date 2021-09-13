@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.springcloud.model.Restaurant;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
 	List<Restaurant> findAll();
 

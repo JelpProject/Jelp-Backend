@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.springcloud.model.Member;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Integer>{
+public interface MemberRepository extends JpaRepository<Member, Long>{
 	List<Member> findAll();
 
-	// NW 2021-09-10 (Security): Find by member's username
+	// Find member's username for spring security use
 	Optional<Member> findByUsername(String username);
 }

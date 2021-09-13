@@ -50,8 +50,8 @@ public class Restaurant implements Serializable {
 		this(-1L, "N/A", "N/A", "N/A", "N/A", new City(), new ArrayList<>());
 	}
 
-	public Restaurant(Long restaurantId, String name, String address, String phone, String description, City city, List<Review> reviews) {
-		this.restaurantId = restaurantId;
+	public Restaurant(Long restaurant_id, String name, String address, String phone, String description, City city, List<Review> reviews) {
+		this.restaurantId = restaurant_id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
