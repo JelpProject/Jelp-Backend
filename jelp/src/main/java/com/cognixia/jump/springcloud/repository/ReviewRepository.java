@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.springcloud.model.Review;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 	List<Review> findAll();
-	List<Review> findAllByrestaurantId(int restaurantId);
-	List<Review> findAllBymemberId(Integer integer);
+	 List<Review> findAllByrestaurantId(Long restaurant);
+	 List<Review> findAllBymbrId(Long member);
 }

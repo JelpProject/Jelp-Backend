@@ -28,18 +28,21 @@ public class RestaurantController {
 		@Autowired
 		RestaurantRepository service;
 		
-		@Autowired
-		ReviewRepository repo;
-		
-		
+		 @Autowired
+		ReviewRepository rvwRepo;
+
+		// @Autowired
+		// CityRepository cityRepo;
 		
 		@GetMapping("/restaurants")
 		public Iterable<Restaurant> getAllRestaurants() {
 			
 			List<Restaurant> restaurantsWRevs = service.findAll();
-			for (int i = 0; i< restaurantsWRevs.size(); i++) {
-				restaurantsWRevs.get(i).setReviews(repo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
-			}
+
+			 for (int i = 0; i< restaurantsWRevs.size(); i++) {
+			 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurantId()));
+			 }
+
 			return restaurantsWRevs;
 			
 		}
@@ -48,25 +51,27 @@ public class RestaurantController {
 		public Iterable<Restaurant> getAllRestaurantsLike(@PathVariable String name) {
 			
 			List<Restaurant> restaurantsWRevs = service.findAllByNameContaining(name);
-			for (int i = 0; i< restaurantsWRevs.size(); i++) {
-				restaurantsWRevs.get(i).setReviews(repo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurant_id()));
-			}
+			
+			 for (int i = 0; i< restaurantsWRevs.size(); i++) {
+			 	restaurantsWRevs.get(i).setReviews(rvwRepo.findAllByrestaurantId(restaurantsWRevs.get(i).getRestaurantId()));
+			 }
+
 			return restaurantsWRevs;
 			
 		}
 		
 		
 		@GetMapping("/restaurants/{id}")
-		public Restaurant getRestaurant(@PathVariable int id) {
+		public Restaurant getRestaurant(@PathVariable Long id) {
 			
 			Optional<Restaurant> restaurantOpt = service.findById(id);
 			
-			if(restaurantOpt.isPresent()) {
-				restaurantOpt.get().setReviews(repo.findAllByrestaurantId(restaurantOpt.get().getRestaurant_id()));
-				return restaurantOpt.get();
-			}
+			 if(restaurantOpt.isPresent()) {
+			 	restaurantOpt.get().setReviews(rvwRepo.findAllByrestaurantId(restaurantOpt.get().getRestaurantId()));
+			 	return restaurantOpt.get();
+			 }
 			
-			return new Restaurant();
+			return null;
 		}
 		
 		
@@ -74,7 +79,7 @@ public class RestaurantController {
 		public void addRestaurant(@RequestBody Restaurant newRestaurant) {
 				
 			Restaurant added = service.save(newRestaurant); // save() does an insert or update (depends on id passed)
-			
+			rvwRepo.saveAll(added.getReviews());
 			System.out.println("Added: " + added);
 			
 		}
@@ -85,14 +90,15 @@ public class RestaurantController {
 			
 			// check if restaurant exists, then update them
 			
-			Optional<Restaurant> found = service.findById(updateRestaurant.getRestaurant_id());
+			Optional<Restaurant> found = service.findById(updateRestaurant.getRestaurantId());
 			
 			if(found.isPresent()) {
 				service.save(updateRestaurant);
+				rvwRepo.saveAll(found.get().getReviews());
 				return "Saved: " + updateRestaurant.toString();
 			}
 			else {
-				return "Could not update restaurant, the id = " + updateRestaurant.getRestaurant_id() + " doesn't exist";
+				return "Could not update restaurant, the id = " + updateRestaurant.getRestaurantId() + " doesn't exist";
 			}
 			
 		}
@@ -100,7 +106,7 @@ public class RestaurantController {
 		
 		
 		@DeleteMapping("/delete/restaurant/{id}")
-		public ResponseEntity<String> deleteRestaurant(@PathVariable int id) {
+		public ResponseEntity<String> deleteRestaurant(@PathVariable Long id) {
 			
 			Optional<Restaurant> found = service.findById(id);
 			

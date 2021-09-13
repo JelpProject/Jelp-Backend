@@ -35,7 +35,7 @@ public class ReviewController {
 	
 	
 	@GetMapping("/reviews/{id}")
-	public Review getReview(@PathVariable int id) {
+	public Review getReview(@PathVariable Long id) {
 		
 		Optional<Review> reviewOpt = service.findById(id);
 		
@@ -62,14 +62,14 @@ public class ReviewController {
 		
 		// check if review exists, then update them
 		
-		Optional<Review> found = service.findById(updateReview.getReviewId());
+		Optional<Review> found = service.findById(updateReview.getRvwId());
 		
 		if(found.isPresent()) {
 			service.save(updateReview);
 			return "Saved: " + updateReview.toString();
 		}
 		else {
-			return "Could not update review, the id = " + updateReview.getReviewId() + " doesn't exist";
+			return "Could not update review, the id = " + updateReview.getRvwId() + " doesn't exist";
 		}
 		
 	}
@@ -77,7 +77,7 @@ public class ReviewController {
 	
 	
 	@DeleteMapping("/delete/review/{id}")
-	public ResponseEntity<String> deleteReview(@PathVariable int id) {
+	public ResponseEntity<String> deleteReview(@PathVariable Long id) {
 		
 		Optional<Review> found = service.findById(id);
 		

@@ -1,6 +1,7 @@
 package com.cognixia.jump.springcloud.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,7 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Restaurant implements Serializable {
@@ -17,69 +22,54 @@ public class Restaurant implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int restaurantId;
+	@Column(name = "Rest_Id")
+	private Long restaurantId;
 	
-	@Column
+	@Column(name = "Rest_Name")
 	private String name;
 	
-	@Column
+	@Column(name = "Rest_Address", columnDefinition = "varchar(60)")
 	private String address;
 	
-	@Column
+	@Size(min = 10, max = 10)
+	@Column(name = "Rest_Phone", columnDefinition = "char(10)")
 	private String phone;
-	
-	@Column
-	private String city;
-	
-	@Column
-	private String state;
-	
-	@Column
-	private String country;
-	
-	@Column
+
+	@Column(name = "Rest_Desc", columnDefinition = "text(500)")
 	private String description;
 	
+	@ManyToOne
+	@JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
+	private City city;
+	
 	@Transient
+	@OneToMany(mappedBy = "restaurant")
 	private List<Review> reviews;
-	
-	
-	public Restaurant(int restaurant_id, String name, String address, String phone, String city, String state,
-			String country, String description, List<Review> reviews) {
-		super();
+
+	public Restaurant() {
+		this(-1L, "N/A", "N/A", "N/A", "N/A", new City(), new ArrayList<>());
+	}
+
+	public Restaurant(Long restaurant_id, String name, String address, String phone, String description, City city, List<Review> reviews) {
 		this.restaurantId = restaurant_id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
-		this.city = city;
-		this.state = state;
-		this.country = country;
 		this.description = description;
+		this.city = city;
 		this.reviews = reviews;
 	}
 
-	public List<Review> getReviews() {
-		return reviews;
+	public Long getRestaurantId() {
+		return this.restaurantId;
 	}
 
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-
-	public Restaurant() {
-		super();
-	}
-
-	public int getRestaurant_id() {
-		return restaurantId;
-	}
-
-	public void setRestaurant_id(int restaurantId) {
+	public void setRestaurantId(Long restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -87,7 +77,7 @@ public class Restaurant implements Serializable {
 	}
 
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
 
 	public void setAddress(String address) {
@@ -95,56 +85,47 @@ public class Restaurant implements Serializable {
 	}
 
 	public String getPhone() {
-		return phone;
+		return this.phone;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	@Override
-	public String toString() {
-		return "Restaurant [restaurantId=" + restaurantId + ", name=" + name + ", address=" + address + ", phone="
-				+ phone + ", city=" + city + ", state=" + state + ", country=" + country + ", description="
-				+ description + ", reviews=" + reviews + "]";
+	public City getCity() {
+		return this.city;
 	}
 
-	
+	public void setCity(City city) {
+		this.city = city;
+	}
 
+	public List<Review> getReviews() {
+		return this.reviews;
+	}
 
-	
-	
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
 
+	@Override
+	public String toString() {
+		return "{" +
+			" restaurantId='" + getRestaurantId() + "'" +
+			", name='" + getName() + "'" +
+			", address='" + getAddress() + "'" +
+			", phone='" + getPhone() + "'" +
+			", description='" + getDescription() + "'" +
+			", city='" + getCity() + "'" +
+			", reviews='" + getReviews() + "'" +
+			"}";
+	}
 }
