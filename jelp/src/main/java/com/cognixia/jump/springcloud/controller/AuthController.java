@@ -5,6 +5,8 @@ import com.cognixia.jump.springcloud.model.AuthenticationResponse;
 import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthController {
-    
-    @Autowired
+   
+
+	@Autowired
     private AuthenticationManager manager;
 
     @Autowired

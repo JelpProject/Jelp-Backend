@@ -22,9 +22,11 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.cognixia.jump.springcloud.controller.RestaurantController;
+import com.cognixia.jump.springcloud.controller.ReviewController;
 import com.cognixia.jump.springcloud.model.Restaurant;
 import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
+import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 /**
  * @author philip
@@ -42,8 +44,17 @@ class ResturantControllerTests {
 	@InjectMocks
 	private RestaurantController controller;
 	
+	@InjectMocks
+	private ReviewController Revcontroller;
+	
 	@MockBean
 	private RestaurantRepository RestaurantRepo;
+	
+	@MockBean 
+	private ReviewRepository ReviewRepo;
+	
+
+	
 	
 	
 	
@@ -53,9 +64,9 @@ class ResturantControllerTests {
 		List<Review> reviews = null;
 		String uri = "http://localhost:8080/api/restaurants/";
 		
-		Optional<Restaurant> restaurant = Optional.of(new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews));
+		Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
 		
-		when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
+	//	when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 		
 		RequestBuilder request = MockMvcRequestBuilders.get(uri+restaurant_id);
 		
