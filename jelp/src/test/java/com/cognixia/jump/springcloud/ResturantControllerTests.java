@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -76,20 +77,21 @@ class ResturantControllerTests {
 	
 	
 	@Test
+	@WithMockUser(username="kenaz98", password="sock")
 	void testReturnResturant() throws Exception {
 	
 		Optional<Restaurant> restaurant = Optional.of(new Restaurant());
 		restaurant.get().setName("Test Restaurant");
 		restaurant.get().setDescription("Test Restaurant");
 		
-		String uri = "http://localhost:8080/api/restaurant/{id}";
+		String uri = "http://localhost:8080/api/restaurant/-1";
 		
+	
+		
+		RequestBuilder request = MockMvcRequestBuilders.get(uri);
 		when( RestaurantRepo.findById(-1L)).thenReturn(restaurant);
-		
-		RequestBuilder request = MockMvcRequestBuilders.get(uri, -1L);
-		
 		MvcResult result = mvc.perform(request).andReturn();
-		
+		System.out.println(result);
 		assertEquals(result, restaurant.get().toString());
 	
 		verify( RestaurantRepo, times(1) ).findById(-1L);
