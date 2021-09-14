@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -23,7 +22,6 @@ public class City implements Serializable {
     @Column(name = "City_Name", columnDefinition = "varchar(45) not null")
     private String name;
 
-    @ManyToOne
     @Column(name = "State_Id")
     private Long stateId;
 

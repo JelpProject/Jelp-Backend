@@ -33,8 +33,13 @@ public class CityController {
     public Iterable<City> getAllCities() {
         List<City> cities = cityRepo.findAll();
 
-        for (City city : cities) {
-            city.setCityState(stateRepo.getById(city.getStateId()));
+        // for (City city : cities) {
+
+        //     city.setCityState(stateRepo.getById(city.getStateId()));
+        // }
+
+        for (int i = 0; i < cities.size(); i ++) {
+            cities.get(i).setCityState(stateRepo.findById(cities.get(i).getStateId()).get());
         }
 
         return cities;
@@ -47,7 +52,7 @@ public class CityController {
 
         if (found.isPresent()) {
             City city = found.get();
-            city.setCityState(stateRepo.getById(city.getStateId()));
+            city.setCityState(stateRepo.findById(city.getStateId()).get());
             return city;
         }
 
