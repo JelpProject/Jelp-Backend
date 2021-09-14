@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+// import javax.persistence.JoinColumn;
+// import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -55,19 +55,19 @@ public class Member implements Serializable {
 	@Transient
 	private Role role;
 	
-	@ManyToOne
-	@JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
-	private City city;
+	// @ManyToOne
+	// @JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
+	// private City city;
 
 	@Transient
 	@OneToMany(mappedBy = "member")
 	private List<Review> reviews;
 	
 	public Member() {
-		this(-1L, "N/A", "N/A", "N/A", false, "N/A", "N/A", false, new City(), new ArrayList<>());
+		this(-1L, "N/A", "N/A", "N/A", false, "N/A", "N/A", false, new ArrayList<>());
 	}
 
-	public Member(Long mbrId, String fname, String lname, String email, Boolean isAdmin, String username, String password, boolean enabled, City city, List<Review> reviews) {
+	public Member(Long mbrId, String fname, String lname, String email, Boolean isAdmin, String username, String password, boolean enabled, List<Review> reviews) {
 		this.mbrId = mbrId;
 		this.fname = fname;
 		this.lname = lname;
@@ -77,7 +77,6 @@ public class Member implements Serializable {
 		this.password = password;
 		this.enabled = enabled;
 		this.role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_USER;
-		this.city = city;
 		this.reviews = reviews;
 	}
 
@@ -161,14 +160,6 @@ public class Member implements Serializable {
 		this.role = role;
 	}
 
-	public City getCity() {
-		return this.city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
-	}
-
 	public List<Review> getReviews() {
 		return this.reviews;
 	}
@@ -189,7 +180,6 @@ public class Member implements Serializable {
 			", password='" + getPassword() + "'" +
 			", enabled='" + isEnabled() + "'" +
 			", role='" + getRole() + "'" +
-			", city='" + getCity() + "'" +
 			", reviews='" + getReviews() + "'" +
 			"}";
 	}
