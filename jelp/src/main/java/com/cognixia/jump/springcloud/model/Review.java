@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -35,25 +36,32 @@ public class Review implements Serializable {
 	@Column(name = "Rvw_Timestamp", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
 	private LocalDateTime timeStamp;
 	
-	
 	@Column(name = "Mbr_Id")
 	private Long mbrId;
 	
 	@Column(name = "Rest_Id")
 	private Long restaurantId;
 
+	@Transient
+	private MemberDto member;
+
+	@Transient
+	private RestaurantDto restaurant;
+
 	public Review() {
-		this(-1L, 0, "N/A", "N/A", LocalDateTime.now(), -1L, -1L);
+		this(-1L, 0, "N/A", "N/A", LocalDateTime.now(), -1L, -1L, null, null);
 	}
 
-	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Long member, Long restaurant) {
+	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Long mbrId, Long restaurantId, MemberDto member, RestaurantDto restaurant) {
 		this.rvwId = rvwId;
 		this.rating = rating;
 		this.headline = headline;
 		this.detail = detail;
 		this.timeStamp = timeStamp;
-		this.mbrId = member;
-		this.restaurantId = restaurant;
+		this.mbrId = mbrId;
+		this.restaurantId = restaurantId;
+		this.member = member;
+		this.restaurant = restaurant;
 	}
 
 	public Long getRvwId() {
@@ -64,11 +72,11 @@ public class Review implements Serializable {
 		this.rvwId = rvwId;
 	}
 
-	public int getRating() {
+	public Integer getRating() {
 		return this.rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 
@@ -96,20 +104,36 @@ public class Review implements Serializable {
 		this.timeStamp = timeStamp;
 	}
 
-	public Long getMember() {
+	public Long getMbrId() {
 		return this.mbrId;
 	}
 
-	public void setMember(Long member) {
-		this.mbrId = member;
+	public void setMbrId(Long mbrId) {
+		this.mbrId = mbrId;
 	}
 
-	public Long getRestaurant() {
+	public Long getRestaurantId() {
 		return this.restaurantId;
 	}
 
-	public void setRestaurant(Long restaurant) {
-		this.restaurantId = restaurant;
+	public void setRestaurantId(Long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
+
+	public MemberDto getMember() {
+		return this.member;
+	}
+
+	public void setMember(MemberDto member) {
+		this.member = member;
+	}
+
+	public RestaurantDto getRestaurant() {
+		return this.restaurant;
+	}
+
+	public void setRestaurant(RestaurantDto restaurant) {
+		this.restaurant = restaurant;
 	}
 
 	@Override
@@ -120,6 +144,8 @@ public class Review implements Serializable {
 			", headline='" + getHeadline() + "'" +
 			", detail='" + getDetail() + "'" +
 			", timeStamp='" + getTimeStamp() + "'" +
+			", mbrId='" + getMbrId() + "'" +
+			", restaurantId='" + getRestaurantId() + "'" +
 			", member='" + getMember() + "'" +
 			", restaurant='" + getRestaurant() + "'" +
 			"}";
