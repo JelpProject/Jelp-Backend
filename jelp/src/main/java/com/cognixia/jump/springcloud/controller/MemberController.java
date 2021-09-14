@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.model.MemberProfileDto;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
+import com.cognixia.jump.springcloud.service.ReviewService;
 
 @RestController
 @RequestMapping("/api")
@@ -25,41 +27,69 @@ public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
-	 @Autowired
-	 ReviewRepository rvwRepo;
-
-	// @Autowired
-	// CityRepository cityRepo;
-	 
-	 //memberWRevs.get(i)
-	 //memberWRevs.get(i).getMbrId())
+	@Autowired
+	ReviewRepository rvwRepo;
 	
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
 		
+		// find all registered members
 		List<Member> memberWRevs = service.findAll();
-		 for (int i = 0; i< memberWRevs.size(); i++) {
-		 	memberWRevs.get(i).setReviews(rvwRepo.findAllBymbrId(memberWRevs.get(i).getMbrId()));
-		 }
+
+		// For each member
+		for (int i = 0; i< memberWRevs.size(); i++) {
+			Member member = memberWRevs.get(i);
+
+			// Retrieve all the reviews the member made
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+
+			// Fill in the review metadata
+			ReviewService.populateReviewMetadata(member.getReviews());
+		}
 
 		return memberWRevs;
 		
 	}
 	
-	@GetMapping("/members/{id}")
-	public Member getMember(@PathVariable Long id) {
+	// For grabbing current user data
+	@GetMapping("/members/{username}")
+	public Member getMember(@PathVariable String username) {
 		
-		Optional<Member> memberOpt = service.findById(id);
+		Optional<Member> memberOpt = service.findByUsername(username);
 		
-		 if(memberOpt.isPresent()) {
-		 	memberOpt.get().setReviews(rvwRepo.findAllBymbrId(memberOpt.get().getMbrId()));
-		 	return memberOpt.get();
-		 }
+		if(memberOpt.isPresent()) {
+			Member member = memberOpt.get();
 
-		if (memberOpt.isPresent()) {
+			// retrive reviews made by user
+			member.setReviews(rvwRepo.findAllBymbrId(memberOpt.get().getMbrId()));
+
+			// grab review metadata
+			ReviewService.populateReviewMetadata(member.getReviews());
+			
 			return memberOpt.get();
 		}
 		
+		return null;
+	}
+
+	// grabbing another user's data
+	@GetMapping("/member/profile/{username}")
+	public MemberProfileDto getMemberProfile(@PathVariable String username) {
+		Optional<MemberProfileDto> found = service.findByUsername(username);
+
+		if (found.isPresent()) {
+			MemberProfileDto member = found.get();
+
+			// grab reviews made by the member
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+
+			// populate review metadata
+			ReviewService.populateReviewMetadata(member.getReviews());
+
+			return member;
+
+		}
+
 		return null;
 	}
 	
