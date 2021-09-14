@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cognixia.jump.springcloud.model.City;
+import com.cognixia.jump.springcloud.model.State;
 import com.cognixia.jump.springcloud.repository.CityRepository;
 import com.cognixia.jump.springcloud.repository.StateRepository;
 
@@ -56,6 +57,20 @@ public class CityController {
     @PostMapping("/add/city")
     public void addCity(@RequestBody City newCity) {
         newCity.setCityId(-1L);
+
+        // Grab the state
+        State cityState = stateRepo.findByName(newCity.getCityState().getName());
+
+        // if state exists
+        if (cityState != null) {
+            newCity.setStateId(cityState.getStateId());
+        }
+        // state doesn't exist
+        else {
+            // create a new state
+            stateRepo.save(new State(-1L, newCity.getCityState().getName()));
+        }
+
         City added = cityRepo.save(newCity);
 
         System.out.println("Added: " + added);
