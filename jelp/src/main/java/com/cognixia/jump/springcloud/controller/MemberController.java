@@ -140,6 +140,7 @@ public class MemberController {
 		}
 
 		newMember.setMbrId(-1L);
+		newMember.setEnabled(true);
 
 		Member added = service.save(newMember); // save() does an insert or update (depends on id passed)
 		
