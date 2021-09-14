@@ -66,6 +66,39 @@ class RestaurantControllerTests {
 	
 	
 	
+/*
+ * 
+ * 
+ * {
+        "restaurantId": -1,
+        "name": "Test Restaurant",
+        "address": "123 Address Way",
+        "phone": "6261234567",
+        "description": "Test Restaurant",
+        "city": {
+            "cityId": -1,
+            "name": "Los Angeles",
+            "cityState": {
+                "stateId": -1,
+                "name": "California"
+            }
+        },
+        "reviews": [
+            {
+                "rvwId": -1,
+                "rating": 3,
+                "headline": "test review",
+                "detail": "This is the test review details",
+                "timeStamp": "2019-01-21T05:47:09",
+                "member": -1,
+                "restaurant": -1
+            }
+        ]
+    }
+ * 
+ */
+	
+	
 	@Test
 	void testReturnRestaurant() throws Exception {
 		Long restaurant_id = 1L;
@@ -77,9 +110,9 @@ class RestaurantControllerTests {
 
 		when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 
-		// Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
+		//Restaurant restaurant = new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "fake city", "NY", "USA", "Tiny Bistro", reviews);
 		
-	//	when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
+		//	when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 
 		
 		RequestBuilder request = MockMvcRequestBuilders.get(uri+restaurant_id);
