@@ -31,6 +31,7 @@ import com.cognixia.jump.springcloud.controller.ReviewController;
 
 import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
+import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
@@ -57,6 +58,9 @@ class MemberControllerTests {
 	
 	@MockBean
 	private MemberRepository MemberRepo;
+	
+	@MockBean
+	private RestaurantRepository RestaurantRepo;
 	
 	@MockBean 
 	private ReviewRepository ReviewRepo;
