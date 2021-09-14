@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.model.MemberDto;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>{
@@ -14,4 +15,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 
 	// Find member's username for spring security use
 	Optional<Member> findByUsername(String username);
+
+	// Projection of user
+	MemberDto findByMbrId(Long mbrId);
 }
