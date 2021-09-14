@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -36,9 +37,11 @@ public class Review implements Serializable {
 	@Column(name = "Rvw_Timestamp", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
 	private LocalDateTime timeStamp;
 	
+	@ManyToMany
 	@Column(name = "Mbr_Id")
 	private Long mbrId;
 	
+	@ManyToMany
 	@Column(name = "Rest_Id")
 	private Long restaurantId;
 
