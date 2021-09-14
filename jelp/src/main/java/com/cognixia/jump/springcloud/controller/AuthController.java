@@ -53,9 +53,5 @@ public class AuthController {
         
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> sayHello() {
-        return new ResponseEntity<String>("Hello World", HttpStatus.OK);
-    }
 
 }
