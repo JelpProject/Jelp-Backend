@@ -91,6 +91,7 @@ public class MemberController {
 	}
 
 	// grabbing another user's data
+	// 2021-09-14: Currently not working
 	@GetMapping("/member/profile/{username}")
 	public MemberProfileDto getMemberProfile(@PathVariable String username) {
 		MemberProfileDto member = service.findByUsername(username, MemberProfileDto.class);
@@ -98,18 +99,20 @@ public class MemberController {
 		if (member != null) {
 			// MemberProfileDto member = found.get();
 
+			System.out.println(member);
+
 			// grab reviews made by the member
-			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+			// member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
 
-			// for each review
-			for (Review review : member.getReviews()) {
+			// // for each review
+			// for (Review review : member.getReviews()) {
 
-				// retrieve the member who made the review
-				// review.setMember(service.findByMbrId(review.getMbrId()));
+			// 	// retrieve the member who made the review
+			// 	// review.setMember(service.findByMbrId(review.getMbrId()));
 
-				// grab the restaurant that the review was made for
-				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
-			}
+			// 	// grab the restaurant that the review was made for
+			// 	review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			// }
 
 			return member;
 
