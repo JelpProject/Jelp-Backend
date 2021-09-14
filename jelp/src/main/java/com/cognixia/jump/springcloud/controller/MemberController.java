@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
-
 import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.model.MemberProfileDto;
 import com.cognixia.jump.springcloud.model.Review;
