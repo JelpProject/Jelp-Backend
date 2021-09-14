@@ -8,6 +8,7 @@ import com.cognixia.jump.springcloud.repository.StateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class StateController {
@@ -24,6 +26,7 @@ public class StateController {
     @Autowired
     StateRepository stateRepo;
 
+    @CrossOrigin
     @GetMapping("/states")
     public Iterable<State> getAllStates() {
         List<State> states = stateRepo.findAll();
@@ -31,6 +34,7 @@ public class StateController {
         return states;
     }
 
+    @CrossOrigin
     @GetMapping("/states/{id}")
     public State getStateById(@PathVariable Long id) {
         Optional<State> state = stateRepo.findById(id);
@@ -42,6 +46,7 @@ public class StateController {
         return null;
     }
 
+    @CrossOrigin
     @PostMapping("/add/state")
     public void addState(@RequestBody State newState) {
         newState.setStateId(-1L);
@@ -50,6 +55,7 @@ public class StateController {
         System.out.println("Added: " + added);
     }
 
+    @CrossOrigin
     @PutMapping("/update/state")
     public String updateState(@RequestBody State updateState) {
         Optional<State> found = stateRepo.findById(updateState.getStateId());

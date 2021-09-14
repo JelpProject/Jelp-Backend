@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
-
+@CrossOrigin
 @RequestMapping("/api")
 @RestController
 public class ReviewController {
@@ -34,7 +35,7 @@ public class ReviewController {
 	@Autowired
 	RestaurantRepository restRepo;
 	
-	
+	@CrossOrigin
 	@GetMapping("/reviews")
 	public List<Review> getAllReviews() {
 
@@ -48,7 +49,7 @@ public class ReviewController {
 		return reviews;
 	}
 	
-	
+	@CrossOrigin
 	@GetMapping("/reviews/{id}")
 	public Review getReview(@PathVariable Long id) {
 		
@@ -67,7 +68,7 @@ public class ReviewController {
 		return new Review();
 	}
 	
-	
+	@CrossOrigin
 	@PostMapping("/add/review")
 	public void addReview(@RequestBody Review newReview) {
 			
@@ -77,7 +78,7 @@ public class ReviewController {
 		
 	}
 	
-	
+	@CrossOrigin
 	@PutMapping("/update/review")
 	public @ResponseBody String updateReview(@RequestBody Review updateReview) {
 		
@@ -94,8 +95,6 @@ public class ReviewController {
 		}
 		
 	}
-	
-	
 	
 	@DeleteMapping("/delete/review/{id}")
 	public ResponseEntity<String> deleteReview(@PathVariable Long id) {

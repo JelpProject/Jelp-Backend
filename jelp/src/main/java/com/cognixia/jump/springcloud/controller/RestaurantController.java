@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class RestaurantController {
 	@Autowired
 	MemberRepository mbrRepo;
 	
+	@CrossOrigin
 	@GetMapping("/restaurants")
 	public Iterable<Restaurant> getAllRestaurants() {
 		
@@ -67,6 +69,7 @@ public class RestaurantController {
 		
 	}
 	
+	@CrossOrigin
 	@GetMapping("/restaurants/name/{name}")
 	public Iterable<RestaurantDto> getAllRestaurantsLike(@PathVariable String name) {
 		
@@ -81,7 +84,7 @@ public class RestaurantController {
 		
 	}
 	
-	
+	@CrossOrigin
 	@GetMapping("/restaurants/{id}")
 	public Restaurant getRestaurant(@PathVariable Long id) {
 		
@@ -112,7 +115,7 @@ public class RestaurantController {
 		return null;
 	}
 	
-	
+	@CrossOrigin
 	@PostMapping("/add/restaurant")
 	public void addRestaurant(@RequestBody Restaurant newRestaurant) {
 			
@@ -122,7 +125,7 @@ public class RestaurantController {
 		
 	}
 	
-	
+	@CrossOrigin
 	@PutMapping("/update/restaurant")
 	public @ResponseBody String updateRestaurant(@RequestBody Restaurant updateRestaurant) {
 		

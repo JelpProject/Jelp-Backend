@@ -10,6 +10,7 @@ import com.cognixia.jump.springcloud.repository.StateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class CityController {
@@ -29,6 +31,7 @@ public class CityController {
     @Autowired
     StateRepository stateRepo;
 
+    @CrossOrigin
     @GetMapping("/cities")
     public Iterable<City> getAllCities() {
         List<City> cities = cityRepo.findAll();
@@ -46,6 +49,7 @@ public class CityController {
         
     }
 
+    @CrossOrigin
     @GetMapping("/city/{id}")
     public City getCityById(@PathVariable Long id) {
         Optional<City> found = cityRepo.findById(id);
@@ -59,6 +63,7 @@ public class CityController {
         return null;
     }
 
+    @CrossOrigin
     @PostMapping("/add/city")
     public void addCity(@RequestBody City newCity) {
         newCity.setCityId(-1L);
@@ -81,6 +86,7 @@ public class CityController {
         System.out.println("Added: " + added);
     }
 
+    @CrossOrigin
     @PutMapping("/update/city")
     public String updateCity(@RequestBody City updateCity) {
         Optional<City> found = cityRepo.findById(updateCity.getCityId());

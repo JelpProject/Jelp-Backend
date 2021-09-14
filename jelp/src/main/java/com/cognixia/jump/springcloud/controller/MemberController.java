@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MemberController {
@@ -34,6 +36,7 @@ public class MemberController {
 	@Autowired
 	RestaurantRepository restRepo;
 	
+	@CrossOrigin
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
 		
@@ -63,7 +66,8 @@ public class MemberController {
 	}
 	
 	// For grabbing current user data
-	@GetMapping("/members/{username}")
+	@CrossOrigin
+	@GetMapping("/member/{username}")
 	public Member getMember(@PathVariable String username) {
 		
 		Member member = service.findByUsername(username, Member.class);
@@ -92,6 +96,7 @@ public class MemberController {
 
 	// grabbing another user's data
 	// 2021-09-14: Currently not working
+	@CrossOrigin
 	@GetMapping("/member/profile/{username}")
 	public MemberProfileDto getMemberProfile(@PathVariable String username) {
 		MemberProfileDto member = service.findByUsername(username, MemberProfileDto.class);
@@ -121,6 +126,7 @@ public class MemberController {
 		return null;
 	}
 	
+	@CrossOrigin
 	@PostMapping("/add/member")
 	public ResponseEntity<?> addMember(@RequestBody Member newMember) {
 		
@@ -141,6 +147,7 @@ public class MemberController {
 		
 	}
 	
+	@CrossOrigin
 	@PutMapping("/update/member")
 	public @ResponseBody String updateMember(@RequestBody Member updateMember) {
 		
@@ -157,7 +164,6 @@ public class MemberController {
 		}
 		
 	}
-	
 	
 	@DeleteMapping("/delete/member/{id}")
 	public ResponseEntity<String> deleteMember(@PathVariable Long id) {
