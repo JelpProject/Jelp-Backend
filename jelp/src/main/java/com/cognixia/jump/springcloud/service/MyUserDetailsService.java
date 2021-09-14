@@ -1,7 +1,6 @@
 package com.cognixia.jump.springcloud.service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import com.cognixia.jump.springcloud.model.Member;
