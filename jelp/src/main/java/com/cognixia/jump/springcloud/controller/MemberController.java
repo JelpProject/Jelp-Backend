@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.model.MemberProfileDto;
+import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
+import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 @RestController
@@ -25,50 +28,116 @@ public class MemberController {
 	@Autowired
 	MemberRepository service;
 	
-	 @Autowired
-	 ReviewRepository rvwRepo;
+	@Autowired
+	ReviewRepository rvwRepo;
 
-	// @Autowired
-	// CityRepository cityRepo;
-	 
-	 //memberWRevs.get(i)
-	 //memberWRevs.get(i).getMbrId())
+	@Autowired
+	RestaurantRepository restRepo;
 	
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
 		
+		// find all registered members
 		List<Member> memberWRevs = service.findAll();
-		 for (int i = 0; i< memberWRevs.size(); i++) {
-		 	memberWRevs.get(i).setReviews(rvwRepo.findAllBymbrId(memberWRevs.get(i).getMbrId()));
-		 }
+
+		// For each member
+		for (int i = 0; i< memberWRevs.size(); i++) {
+			Member member = memberWRevs.get(i);
+
+			// Retrieve all the reviews the member made
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+
+			// for each review
+			for (Review review : member.getReviews()) {
+
+				// retrieve the member who made the review
+				review.setMember(service.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
+		}
 
 		return memberWRevs;
 		
 	}
 	
-	@GetMapping("/members/{id}")
-	public Member getMember(@PathVariable Long id) {
+	// For grabbing current user data
+	@GetMapping("/members/{username}")
+	public Member getMember(@PathVariable String username) {
 		
-		Optional<Member> memberOpt = service.findById(id);
+		Member member = service.findByUsername(username, Member.class);
 		
-		 if(memberOpt.isPresent()) {
-		 	memberOpt.get().setReviews(rvwRepo.findAllBymbrId(memberOpt.get().getMbrId()));
-		 	return memberOpt.get();
-		 }
+		if(member != null) {
+			// Member member = memberOpt.get();
 
-		if (memberOpt.isPresent()) {
-			return memberOpt.get();
+			// retrive reviews made by user
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+
+			// for each review
+			for (Review review : member.getReviews()) {
+
+				// retrieve the member who made the review
+				review.setMember(service.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
+			
+			return member;
 		}
 		
 		return null;
 	}
+
+	// grabbing another user's data
+	// 2021-09-14: Currently not working
+	@GetMapping("/member/profile/{username}")
+	public MemberProfileDto getMemberProfile(@PathVariable String username) {
+		MemberProfileDto member = service.findByUsername(username, MemberProfileDto.class);
+
+		if (member != null) {
+			// MemberProfileDto member = found.get();
+
+			System.out.println(member);
+
+			// grab reviews made by the member
+			// member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+
+			// // for each review
+			// for (Review review : member.getReviews()) {
+
+			// 	// retrieve the member who made the review
+			// 	// review.setMember(service.findByMbrId(review.getMbrId()));
+
+			// 	// grab the restaurant that the review was made for
+			// 	review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			// }
+
+			return member;
+
+		}
+
+		return null;
+	}
 	
 	@PostMapping("/add/member")
-	public void addMember(@RequestBody Member newMember) {
-			
+	public ResponseEntity<?> addMember(@RequestBody Member newMember) {
+		
+		// Check if member already exists
+		Optional<Member> memberByEmail = service.findByEmail(newMember.getEmail());
+		Member memberByUsername = service.findByUsername(newMember.getUsername(), Member.class);
+
+		// if the email or username has already been taken
+		if (memberByEmail.isPresent() || memberByUsername != null) {
+			return ResponseEntity.status(400).body("User already exists");
+		}
+
+		newMember.setMbrId(-1L);
+
 		Member added = service.save(newMember); // save() does an insert or update (depends on id passed)
 		
-		System.out.println("Added: " + added);
+		return ResponseEntity.status(200).body("Added: " + added);
 		
 	}
 	

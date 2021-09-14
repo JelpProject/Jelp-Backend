@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Review;
+import com.cognixia.jump.springcloud.repository.MemberRepository;
+import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 
 
@@ -25,12 +27,25 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewRepository service;
+
+	@Autowired
+	MemberRepository mbrRepo;
+
+	@Autowired
+	RestaurantRepository restRepo;
 	
 	
 	@GetMapping("/reviews")
 	public List<Review> getAllReviews() {
+
+		List<Review> reviews = service.findAll();
+
+		for (Review review : reviews) {
+			review.setMember(mbrRepo.findByMbrId(review.getMbrId()));
+			review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+		}
 		
-		return service.findAll();
+		return reviews;
 	}
 	
 	
@@ -40,7 +55,13 @@ public class ReviewController {
 		Optional<Review> reviewOpt = service.findById(id);
 		
 		if(reviewOpt.isPresent()) {
-			return reviewOpt.get();
+
+			Review review = reviewOpt.get();
+
+			review.setMember(mbrRepo.findByMbrId(review.getMbrId()));
+			review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+
+			return review;
 		}
 		
 		return new Review();

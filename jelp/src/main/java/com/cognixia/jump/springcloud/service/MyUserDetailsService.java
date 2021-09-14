@@ -1,7 +1,6 @@
 package com.cognixia.jump.springcloud.service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import com.cognixia.jump.springcloud.model.Member;
@@ -24,14 +23,14 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        Optional<Member> found = mbrRepo.findByUsername(username);
+        Member user = mbrRepo.findByUsername(username, Member.class);
 
         // if member not found
-        if (found.isEmpty()) {
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
 
-        Member user = found.get();
+        // Member user = found.get();
 
         // Creates a new user in the spring security
         return new User(user.getUsername(), "{noop}" + user.getPassword(), getAuthority(user));
