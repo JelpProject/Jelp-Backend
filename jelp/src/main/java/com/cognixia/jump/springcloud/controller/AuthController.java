@@ -2,6 +2,8 @@ package com.cognixia.jump.springcloud.controller;
 
 import com.cognixia.jump.springcloud.model.AuthenticationRequest;
 import com.cognixia.jump.springcloud.model.AuthenticationResponse;
+import com.cognixia.jump.springcloud.model.MemberDto;
+import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
 
@@ -29,6 +31,9 @@ public class AuthController {
     private MyUserDetailsService userService;
 
     @Autowired
+    private MemberRepository mbrRepo;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     @CrossOrigin
@@ -47,7 +52,9 @@ public class AuthController {
         final UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         final String jwt = jwtUtil.generateTokens(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        final MemberDto member = mbrRepo.findByUsername(authRequest.getUsername(), MemberDto.class);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, member.getFname(), member.getLname(), member.getUsername()));
         
     }
 
