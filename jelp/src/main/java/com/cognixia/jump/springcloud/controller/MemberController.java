@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.model.MemberProfileDto;
+import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
+import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
-import com.cognixia.jump.springcloud.service.ReviewService;
 
 @RestController
 @RequestMapping("/api")
@@ -29,6 +30,9 @@ public class MemberController {
 	
 	@Autowired
 	ReviewRepository rvwRepo;
+
+	@Autowired
+	RestaurantRepository restRepo;
 	
 	@GetMapping("/members")
 	public Iterable<Member> getAllMembers() {
@@ -43,8 +47,15 @@ public class MemberController {
 			// Retrieve all the reviews the member made
 			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
 
-			// Fill in the review metadata
-			ReviewService.populateReviewMetadata(member.getReviews());
+			// for each review
+			for (Review review : member.getReviews()) {
+
+				// retrieve the member who made the review
+				review.setMember(service.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
 		}
 
 		return memberWRevs;
@@ -55,18 +66,25 @@ public class MemberController {
 	@GetMapping("/members/{username}")
 	public Member getMember(@PathVariable String username) {
 		
-		Optional<Member> memberOpt = service.findByUsername(username);
+		Member member = service.findByUsername(username, Member.class);
 		
-		if(memberOpt.isPresent()) {
-			Member member = memberOpt.get();
+		if(member != null) {
+			// Member member = memberOpt.get();
 
 			// retrive reviews made by user
-			member.setReviews(rvwRepo.findAllBymbrId(memberOpt.get().getMbrId()));
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
 
-			// grab review metadata
-			ReviewService.populateReviewMetadata(member.getReviews());
+			// for each review
+			for (Review review : member.getReviews()) {
+
+				// retrieve the member who made the review
+				// review.setMember(service.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
 			
-			return memberOpt.get();
+			return member;
 		}
 		
 		return null;
@@ -75,16 +93,23 @@ public class MemberController {
 	// grabbing another user's data
 	@GetMapping("/member/profile/{username}")
 	public MemberProfileDto getMemberProfile(@PathVariable String username) {
-		Optional<MemberProfileDto> found = service.findByUsername(username);
+		MemberProfileDto member = service.findByUsername(username, MemberProfileDto.class);
 
-		if (found.isPresent()) {
-			MemberProfileDto member = found.get();
+		if (member != null) {
+			// MemberProfileDto member = found.get();
 
 			// grab reviews made by the member
 			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
 
-			// populate review metadata
-			ReviewService.populateReviewMetadata(member.getReviews());
+			// for each review
+			for (Review review : member.getReviews()) {
+
+				// retrieve the member who made the review
+				// review.setMember(service.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
 
 			return member;
 

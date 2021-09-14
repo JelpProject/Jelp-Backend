@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Restaurant;
 import com.cognixia.jump.springcloud.model.RestaurantDto;
+import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
-import com.cognixia.jump.springcloud.service.ReviewService;
 
 
 
@@ -52,8 +52,15 @@ public class RestaurantController {
 			// retrieve all of their reviews
 			restaurant.setReviews(rvwRepo.findAllByrestaurantId(restaurant.getRestaurantId()));
 
-			// populate the restaurant metadata
-			ReviewService.populateReviewMetadata(restaurant.getReviews());
+			// for each review
+			for (Review review : restaurant.getReviews()) {
+
+				// retrieve the member who made the review
+				review.setMember(mbrRepo.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(service.findByRestaurantId(review.getRestaurantId()));
+			}
 		}
 
 		return restaurantsWRevs;
@@ -89,8 +96,15 @@ public class RestaurantController {
 			// grab all the restaurant's reviews
 			restaurant.setReviews(rvwRepo.findAllByrestaurantId(restaurant.getRestaurantId()));
 
-			// populate review metadata
-			ReviewService.populateReviewMetadata(restaurant.getReviews());
+			// for each review
+			for (Review review : restaurant.getReviews()) {
+
+				// retrieve the member who made the review
+				review.setMember(mbrRepo.findByMbrId(review.getMbrId()));
+
+				// grab the restaurant that the review was made for
+				review.setRestaurant(service.findByRestaurantId(review.getRestaurantId()));
+			}
 
 			return restaurantOpt.get();
 		}
