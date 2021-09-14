@@ -24,14 +24,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.cognixia.jump.springcloud.controller.RestaurantController;
+import com.cognixia.jump.springcloud.controller.MemberController;
 
 
 import com.cognixia.jump.springcloud.controller.ReviewController;
 
-import com.cognixia.jump.springcloud.model.Restaurant;
-import com.cognixia.jump.springcloud.repository.CityRepository;
-import com.cognixia.jump.springcloud.repository.RestaurantRepository;
+import com.cognixia.jump.springcloud.model.Member;
+import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.ReviewRepository;
 import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
@@ -43,26 +42,21 @@ import com.cognixia.jump.springcloud.util.JwtUtil;
 
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(RestaurantController.class)
+@WebMvcTest(MemberController.class)
 @AutoConfigureMockMvc
-class ResturantControllerTests {
+class MemberControllerTests {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@InjectMocks
-	private RestaurantController controller;
+	private MemberController controller;
 	
 	@InjectMocks
 	private ReviewController Revcontroller;
 	
 	@MockBean
-	private RestaurantRepository RestaurantRepo;
-
-
-	@MockBean
-	private CityRepository cityRepo;
-
+	private MemberRepository MemberRepo;
 	
 	@MockBean 
 	private ReviewRepository ReviewRepo;
@@ -78,24 +72,21 @@ class ResturantControllerTests {
 	
 	@Test
 	@WithMockUser(username="kenaz98", password="sock")
-	void testReturnResturant() throws Exception {
+	void testReturnMember() throws Exception {
 	
-		Optional<Restaurant> restaurant = Optional.of(new Restaurant());
-		restaurant.get().setName("Test Restaurant");
-		restaurant.get().setDescription("Test Restaurant");
+		Optional<Member> member = Optional.of(new Member());
+		String uri = "http://localhost:8080/api/member/{id}";
 		
-		String uri = "http://localhost:8080/api/restaurant/-1";
+		when( MemberRepo.findById(-1L)).thenReturn(member);
 		
-	
+		RequestBuilder request = MockMvcRequestBuilders.get(uri, -1L);
 		
-		RequestBuilder request = MockMvcRequestBuilders.get(uri);
-		when( RestaurantRepo.findById(-1L)).thenReturn(restaurant);
 		MvcResult result = mvc.perform(request).andReturn();
-		System.out.println(result);
-		assertEquals(result, restaurant.get().toString());
+		
+		assertEquals(result, member.get().toString());
 	
-		verify( RestaurantRepo, times(1) ).findById(-1L);
-		verifyNoMoreInteractions(RestaurantRepo);
+		verify( MemberRepo, times(1) ).findById(-1L);
+		verifyNoMoreInteractions(MemberRepo);
 		
 	}
 	
