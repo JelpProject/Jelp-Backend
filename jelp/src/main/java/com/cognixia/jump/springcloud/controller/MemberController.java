@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.micrometer.core.ipc.http.HttpSender.Response;
+
 import com.cognixia.jump.springcloud.model.Member;
 import com.cognixia.jump.springcloud.model.MemberProfileDto;
 import com.cognixia.jump.springcloud.model.Review;
@@ -78,7 +80,7 @@ public class MemberController {
 			for (Review review : member.getReviews()) {
 
 				// retrieve the member who made the review
-				// review.setMember(service.findByMbrId(review.getMbrId()));
+				review.setMember(service.findByMbrId(review.getMbrId()));
 
 				// grab the restaurant that the review was made for
 				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
@@ -119,11 +121,22 @@ public class MemberController {
 	}
 	
 	@PostMapping("/add/member")
-	public void addMember(@RequestBody Member newMember) {
-			
+	public ResponseEntity<?> addMember(@RequestBody Member newMember) {
+		
+		// Check if member already exists
+		Optional<Member> memberByEmail = service.findByEmail(newMember.getEmail());
+		Member memberByUsername = service.findByUsername(newMember.getUsername(), Member.class);
+
+		// if the email or username has already been taken
+		if (memberByEmail.isPresent() || memberByUsername != null) {
+			return ResponseEntity.status(400).body("User already exists");
+		}
+
+		newMember.setMbrId(-1L);
+
 		Member added = service.save(newMember); // save() does an insert or update (depends on id passed)
 		
-		System.out.println("Added: " + added);
+		return ResponseEntity.status(200).body("Added: " + added);
 		
 	}
 	
