@@ -106,7 +106,7 @@ class RestaurantControllerTests {
 		String uri = "http://localhost:8080/api/restaurants/";
 		
 
-		Optional<Restaurant> restaurant = Optional.of(new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "description", new City(1L, "fake city", new State(1L, "NY")), reviews));
+		Optional<Restaurant> restaurant = Optional.of(new Restaurant(restaurant_id, "adam bistro", "1000 fake ave", "5161111111", "description", new City(1L, "fake city", -1L, new State(1L, "NY")), reviews));
 
 		when(RestaurantRepo.findById(restaurant_id)).thenReturn(restaurant);
 
