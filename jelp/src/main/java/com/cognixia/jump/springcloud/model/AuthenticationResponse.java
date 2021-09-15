@@ -10,12 +10,14 @@ public class AuthenticationResponse implements Serializable {
     private String fname;
     private String lname;
     private String username;
+    private Boolean isAdmin;
 
-    public AuthenticationResponse(String jwt, String fname, String lname, String username) {
+    public AuthenticationResponse(String jwt, MemberDto user) {
         this.jwt = jwt;
-        this.fname = fname;
-        this.lname = lname;
-        this.username = username;
+        this.fname = user.getFname();
+        this.lname = user.getLname();
+        this.username = user.getUsername();
+        this.isAdmin = user.getIsAdmin();
     }
 
     public String getJwt() {
@@ -32,6 +34,10 @@ public class AuthenticationResponse implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
     }
 
 }

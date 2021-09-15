@@ -7,8 +7,8 @@ public class MemberProfileDto extends MemberDto {
     // additional attributes not provided in MemberDto
     List<Review> reviews;
 
-    public MemberProfileDto(Long mbrId, String fname, String lname, String username, List<Review> reviews) {
-        super(mbrId, fname, lname, username);
+    public MemberProfileDto(Long mbrId, String fname, String lname, String username, Boolean isAdmin, List<Review> reviews) {
+        super(mbrId, fname, lname, username, isAdmin);
         this.reviews = reviews;
     }
 

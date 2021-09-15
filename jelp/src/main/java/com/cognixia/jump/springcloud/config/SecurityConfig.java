@@ -47,6 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/authenticate", "/api/member/**", "/api/add/member", "/api/restaurants", "/api/restaurants/name/**", "/api/restaurants/*", "/api/reviews", "/api/reviews/**").permitAll()
                 // http method options does not required any authentication
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers("/api/add/review").hasAuthority("ROLE_USER")
+                .antMatchers("/api/update/restaurant").hasAuthority("ROLE_ADMIN")
                 // all other paths must be authenticated
                 .anyRequest().authenticated()
                 .and()

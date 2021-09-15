@@ -54,7 +54,7 @@ public class AuthController {
 
         final MemberDto member = mbrRepo.findByUsername(authRequest.getUsername(), MemberDto.class);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, member.getFname(), member.getLname(), member.getUsername()));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, member));
         
     }
 

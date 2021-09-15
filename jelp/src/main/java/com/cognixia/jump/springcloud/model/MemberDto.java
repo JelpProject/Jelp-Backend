@@ -6,44 +6,34 @@ public class MemberDto {
     private String fname;
     private String lname;
     private String username;
+    private Boolean isAdmin;
 
-    public MemberDto(Long mbrId, String fname, String lname, String username) {
+    public MemberDto(Long mbrId, String fname, String lname, String username, Boolean isAdmin) {
         this.mbrId = mbrId;
         this.fname = fname;
         this.lname = lname;
         this.username = username;
+        this.isAdmin = isAdmin;
     }
 
     public Long getMbrId() {
         return this.mbrId;
     }
 
-    public void setMbrId(Long mbrId) {
-        this.mbrId = mbrId;
-    }
-
     public String getFname() {
         return this.fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
     }
 
     public String getLname() {
         return this.lname;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
     public String getUsername() {
         return this.username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Boolean getIsAdmin() {
+        return this.isAdmin;
     }
 
     @Override
@@ -53,6 +43,7 @@ public class MemberDto {
             ", fname='" + getFname() + "'" +
             ", lname='" + getLname() + "'" +
             ", username='" + getUsername() + "'" +
+            ", isAdmin='" + getIsAdmin() + "'" +
             "}";
     }
 
