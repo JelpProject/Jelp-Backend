@@ -11,6 +11,7 @@ public class AuthenticationResponse implements Serializable {
     private String lname;
     private String username;
     private Boolean isAdmin;
+    private Long mbrId;
 
     public AuthenticationResponse(String jwt, MemberDto user) {
         this.jwt = jwt;
@@ -18,6 +19,7 @@ public class AuthenticationResponse implements Serializable {
         this.lname = user.getLname();
         this.username = user.getUsername();
         this.isAdmin = user.getIsAdmin();
+        this.mbrId = user.getMbrId();
     }
 
     public String getJwt() {
@@ -38,6 +40,10 @@ public class AuthenticationResponse implements Serializable {
 
     public Boolean getIsAdmin() {
         return isAdmin;
+    }
+
+    public Long getMbrId() {
+        return mbrId;
     }
 
 }
