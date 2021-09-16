@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.cognixia.jump.springcloud.model.MbrBasicInfo;
 import com.cognixia.jump.springcloud.model.Member;
-import com.cognixia.jump.springcloud.model.MemberDto;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>{
@@ -21,5 +21,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 	// Projection of user
 	// Can find a user using MemberDto and MemberProfileDto to grab only certain
 	// required information from the member
-	MemberDto findByMbrId(Long mbrId);
+	MbrBasicInfo findByMbrId(Long mbrId);
 }

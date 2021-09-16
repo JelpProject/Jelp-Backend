@@ -43,7 +43,7 @@ public class Review implements Serializable {
 	private Long restaurantId;
 
 	@Transient
-	private MemberDto member;
+	private MbrBasicInfo member;
 
 	@Transient
 	private RestaurantDto restaurant;
@@ -52,7 +52,7 @@ public class Review implements Serializable {
 		this(-1L, 0, "N/A", "N/A", LocalDateTime.now(), -1L, -1L, null, null);
 	}
 
-	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Long mbrId, Long restaurantId, MemberDto member, RestaurantDto restaurant) {
+	public Review(Long rvwId, int rating, String headline, String detail, LocalDateTime timeStamp, Long mbrId, Long restaurantId, MbrBasicInfo member, RestaurantDto restaurant) {
 		this.rvwId = rvwId;
 		this.rating = rating;
 		this.headline = headline;
@@ -120,11 +120,11 @@ public class Review implements Serializable {
 		this.restaurantId = restaurantId;
 	}
 
-	public MemberDto getMember() {
+	public MbrBasicInfo getMember() {
 		return this.member;
 	}
 
-	public void setMember(MemberDto member) {
+	public void setMember(MbrBasicInfo member) {
 		this.member = member;
 	}
 

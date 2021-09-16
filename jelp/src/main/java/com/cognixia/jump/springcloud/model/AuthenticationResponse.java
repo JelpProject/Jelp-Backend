@@ -13,7 +13,7 @@ public class AuthenticationResponse implements Serializable {
     private Boolean isAdmin;
     private Long mbrId;
 
-    public AuthenticationResponse(String jwt, MemberDto user) {
+    public AuthenticationResponse(String jwt, MbrBasicInfo user) {
         this.jwt = jwt;
         this.fname = user.getFname();
         this.lname = user.getLname();

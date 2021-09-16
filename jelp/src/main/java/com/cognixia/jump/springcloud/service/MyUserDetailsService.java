@@ -30,8 +30,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        // Member user = found.get();
-
         // Creates a new user in the spring security
         return new User(user.getUsername(), "{noop}" + user.getPassword(), getAuthority(user));
 
