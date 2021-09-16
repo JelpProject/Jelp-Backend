@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Member;
-import com.cognixia.jump.springcloud.model.MemberProfileDto;
+import com.cognixia.jump.springcloud.model.MemberProjection;
 import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
@@ -98,8 +98,8 @@ public class MemberController {
 	// 2021-09-14: Currently not working
 	@CrossOrigin
 	@GetMapping("/member/profile/{username}")
-	public MemberProfileDto getMemberProfile(@PathVariable String username) {
-		MemberProfileDto member = service.findByUsername(username, MemberProfileDto.class);
+	public MemberProjection getMemberProfile(@PathVariable String username) {
+		MemberProjection member = service.findByUsername(username, MemberProjection.class);
 
 		if (member != null) {
 			// MemberProfileDto member = found.get();
@@ -107,17 +107,17 @@ public class MemberController {
 			System.out.println(member);
 
 			// grab reviews made by the member
-			// member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
+			member.setReviews(rvwRepo.findAllBymbrId(member.getMbrId()));
 
-			// // for each review
-			// for (Review review : member.getReviews()) {
+			// for each review
+			for (Review review : member.getReviews()) {
 
-			// 	// retrieve the member who made the review
-			// 	// review.setMember(service.findByMbrId(review.getMbrId()));
+				// retrieve the member who made the review
+				// review.setMember(service.findByMbrId(review.getMbrId()));
 
-			// 	// grab the restaurant that the review was made for
-			// 	review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
-			// }
+				// grab the restaurant that the review was made for
+				review.setRestaurant(restRepo.findByRestaurantId(review.getRestaurantId()));
+			}
 
 			return member;
 
