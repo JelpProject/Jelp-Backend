@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Restaurant implements Serializable {
 	@Column(name = "Rest_Desc", columnDefinition = "text(500)")
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
 	private City city;
 	
