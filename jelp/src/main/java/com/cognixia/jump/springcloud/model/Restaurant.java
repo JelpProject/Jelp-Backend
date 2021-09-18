@@ -40,7 +40,7 @@ public class Restaurant implements Serializable {
 	private String description;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "City_Id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "City_Id", nullable = false, insertable = true, updatable = true)
 	private City city;
 	
 	@Transient
