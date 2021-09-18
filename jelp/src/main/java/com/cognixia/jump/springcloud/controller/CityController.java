@@ -36,14 +36,18 @@ public class CityController {
     public Iterable<City> getAllCities() {
         List<City> cities = cityRepo.findAll();
 
-        // for (City city : cities) {
+        for (City city : cities) {
 
-        //     city.setCityState(stateRepo.getById(city.getStateId()));
-        // }
-
-        for (int i = 0; i < cities.size(); i ++) {
-            cities.get(i).setCityState(stateRepo.findById(cities.get(i).getStateId()).get());
+            city.setCityState(stateRepo.getById(city.getStateId()));
+            
         }
+
+        // for (int i = 0; i < cities.size(); i ++) {
+
+        //     System.out.println(stateRepo.findById(cities.get(i).getStateId()).get().getClass().getName());
+
+        //     cities.get(i).setCityState(stateRepo.findById(cities.get(i).getStateId()).get());
+        // }
 
         return cities;
         
