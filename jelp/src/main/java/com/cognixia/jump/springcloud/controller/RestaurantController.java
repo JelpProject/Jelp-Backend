@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.springcloud.model.Restaurant;
 import com.cognixia.jump.springcloud.model.RestaurantDto;
-import com.cognixia.jump.springcloud.model.RestaurantInfo;
 import com.cognixia.jump.springcloud.model.Review;
 import com.cognixia.jump.springcloud.repository.MemberRepository;
 import com.cognixia.jump.springcloud.repository.RestaurantRepository;
