@@ -15,6 +15,7 @@ public class State implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "State_Id")
     private Long stateId;
 
     @Column(name = "State_Name", columnDefinition = "varchar(45) not null")
@@ -52,5 +53,6 @@ public class State implements Serializable {
             ", name='" + getName() + "'" +
             "}";
     }
+    
     
 }
