@@ -9,6 +9,7 @@ import com.cognixia.jump.springcloud.repository.CityRepository;
 import com.cognixia.jump.springcloud.repository.StateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -69,7 +70,8 @@ public class CityController {
 
     @CrossOrigin
     @PostMapping("/add/city")
-    public void addCity(@RequestBody City newCity) {
+    public ResponseEntity<String> addCity(@RequestBody City newCity) {
+        City added = null;
         newCity.setCityId(-1L);
 
         // Grab the state
@@ -82,12 +84,23 @@ public class CityController {
         // state doesn't exist
         else {
             // create a new state
-            stateRepo.save(new State(-1L, newCity.getCityState().getName()));
+            cityState = stateRepo.save(new State(-1L, newCity.getCityState().getName()));
+
+            // Set the city's state to the new state
+            newCity.setStateId(cityState.getStateId());
+            newCity.setCityState(cityState);
         }
 
-        City added = cityRepo.save(newCity);
+        // Check if the city already exists before adding it
+        if (cityRepo.findByNameAndStateId(newCity.getName(), newCity.getStateId()) == null) {
+            added = cityRepo.save(newCity);
 
-        System.out.println("Added: " + added);
+        // Record for city already exists
+        } else {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("City already exists");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Added: " + added);
     }
 
     @CrossOrigin

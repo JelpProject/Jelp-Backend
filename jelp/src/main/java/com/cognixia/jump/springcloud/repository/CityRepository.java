@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface CityRepository extends JpaRepository<City, Long>{
     List<City> findAll();
     List<City> findAllByStateId(Long stateId);
+
+    City findByNameAndStateId(String name, Long stateId);
 }
