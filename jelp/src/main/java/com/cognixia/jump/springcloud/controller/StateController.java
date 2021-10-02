@@ -7,6 +7,7 @@ import com.cognixia.jump.springcloud.model.State;
 import com.cognixia.jump.springcloud.repository.StateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,11 +49,18 @@ public class StateController {
 
     @CrossOrigin
     @PostMapping("/add/state")
-    public void addState(@RequestBody State newState) {
+    public ResponseEntity<String> addState(@RequestBody State newState) {
+        State added = null;
         newState.setStateId(-1L);
-        State added = stateRepo.save(newState);
 
-        System.out.println("Added: " + added);
+        // check if the state already exists
+        if (stateRepo.findByName(newState.getName()) == null) {
+            added = stateRepo.save(newState);
+        } else {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("State already exists.");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Added: " + added);
     }
 
     @CrossOrigin
@@ -75,10 +83,10 @@ public class StateController {
 
         if (found.isPresent()) {
             stateRepo.deleteById(id);
-            return ResponseEntity.status(200).body("Deleted member with id = " + id);
+            return ResponseEntity.status(200).body("Deleted state with id = " + id);
         }
         else {
-            return ResponseEntity.status(400).body("Member with id = " + id + " not found");
+            return ResponseEntity.status(400).body("State with id = " + id + " not found");
         }
     }
 
