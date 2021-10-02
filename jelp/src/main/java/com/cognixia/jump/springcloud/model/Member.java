@@ -67,10 +67,10 @@ public class Member implements Serializable {
 	private List<Review> reviews;
 	
 	public Member() {
-		this(-1L, "N/A", "N/A", "N/A", false, "N/A", "N/A", false, new ArrayList<>());
+		this(-1L, "N/A", "N/A", "N/A", false, "N/A", "N/A", false, Role.ROLE_USER, new ArrayList<>());
 	}
 
-	public Member(Long mbrId, String fname, String lname, String email, Boolean isAdmin, String username, String password, boolean enabled, List<Review> reviews) {
+	public Member(Long mbrId, String fname, String lname, String email, Boolean isAdmin, String username, String password, boolean enabled, Role role, List<Review> reviews) {
 		this.mbrId = mbrId;
 		this.fname = fname;
 		this.lname = lname;
@@ -79,7 +79,7 @@ public class Member implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
-		this.role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_USER;
+		this.role = role;
 		this.reviews = reviews;
 	}
 
