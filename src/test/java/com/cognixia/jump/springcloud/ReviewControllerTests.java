@@ -33,10 +33,6 @@ import com.cognixia.jump.springcloud.repository.ReviewRepository;
 import com.cognixia.jump.springcloud.service.MyUserDetailsService;
 import com.cognixia.jump.springcloud.util.JwtUtil;
 
-/**
- * @author philip
- *
- */
 
 
 @ExtendWith(SpringExtension.class)
