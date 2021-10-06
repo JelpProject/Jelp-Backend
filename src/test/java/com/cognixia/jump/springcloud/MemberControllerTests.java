@@ -44,7 +44,6 @@ import com.cognixia.jump.springcloud.util.JwtUtil;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MemberController.class)
 @AutoConfigureMockMvc
-@SpringBootTest
 class MemberControllerTests {
 
 	@Autowired

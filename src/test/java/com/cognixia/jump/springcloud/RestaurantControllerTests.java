@@ -46,7 +46,6 @@ import com.cognixia.jump.springcloud.util.JwtUtil;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(RestaurantController.class)
 @AutoConfigureMockMvc
-@SpringBootTest
 class ResturantControllerTests {
 
 	@Autowired
