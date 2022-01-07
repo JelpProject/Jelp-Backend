@@ -17,4 +17,4 @@ Mockito Testing | Philip | Done for initial controllers
 JPA Models | Philip, Nikki | Done
 JPA Controllers | Philip, Nikki | Some bugs to fix
 Spring Security | Nikki | Basics set up, need to apply roles
-Deployment to AWS | | Awaiting fully functional project before deployment
+Deployment to AWS | | N/A
